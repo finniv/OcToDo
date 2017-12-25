@@ -33,6 +33,10 @@ namespace OcToDo
             _commandsList = new List<Command>
             {
                 new HelloCommand()
+                //TODO Добавить регистрацию
+                //TODO Добавить авторизацию
+                //TODO Добавить создание групп
+                //TODO Добавить создание тасков
             };
 
             Client = new TelegramBotClient(BotCore.BotToken);

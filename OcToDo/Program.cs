@@ -11,6 +11,7 @@ namespace OcToDo
             Bot.Client.StartReceiving();
             Console.ReadLine();
             Bot.Client.StopReceiving();
+            //TODO Добавить вывод логов
         }
     }
 }
