@@ -16,19 +16,20 @@ namespace OcToDo.Data.DataBase
 
             OcToDoDataContext dbContext = new OcToDoDataContext();
 
-            var username = (from un in dbContext.People
+            People username = (from un in dbContext.People
                 where un.Telegram_ID == Telegram_ID
-                select un).ToArray();
+                select un).SingleOrDefault<People>();
 
-            if (username[0].Telegram_ID==Telegram_ID)
-            {
-                return false;
-            }
-            if(username[0].Telegram_ID!=Telegram_ID)
+            if (username == null)
             {
                 dbContext.GetTable<People>().InsertOnSubmit(new People() { Telegram_ID = Telegram_ID });
                 dbContext.SubmitChanges();
             }
+            else if  (username.Telegram_ID==Telegram_ID)
+            {
+                return false;
+            }
+            
 
             return true;
         }
