@@ -9,7 +9,7 @@ namespace OcToDo
 {
     public static class MessageController
     {
-        public static async void Update(object sender,MessageEventArgs eventArgs)
+        public static async void Update(object sender, MessageEventArgs eventArgs)
         {
             var commands = Bot.Commands;
             Message messeage = eventArgs.Message;

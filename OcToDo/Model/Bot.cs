@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OcToDo.Commands;
+using OcToDo.Model.Commands;
 using Telegram.Bot;
 
 namespace OcToDo
@@ -43,7 +43,6 @@ namespace OcToDo
             await Client.SetWebhookAsync();
             var me = Client.GetMeAsync().Result;
             Console.Title = me.Username;
-            
             return Client;
         }
     }

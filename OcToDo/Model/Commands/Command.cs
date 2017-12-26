@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace OcToDo.Commands
+namespace OcToDo.Model.Commands
 {
     public abstract class Command
     {
