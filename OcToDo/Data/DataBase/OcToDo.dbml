@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="OcToDo" Class="OcToDoDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=OcToDo;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True" SettingsObjectName="OcToDo.Properties.Settings" SettingsPropertyName="OcToDoConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.People" Member="People">
+    <Type Name="People">
+      <Column Name="People_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FName" Type="System.String" DbType="NVarChar(18)" CanBeNull="true" />
+      <Column Name="MName" Type="System.String" DbType="NVarChar(18)" CanBeNull="true" />
+      <Column Name="LName" Type="System.String" DbType="NVarChar(18)" CanBeNull="true" />
+      <Column Name="Adress" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="Char(12)" CanBeNull="true" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Telegram_ID" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="Login" Type="System.String" DbType="NVarChar(32)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(32)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

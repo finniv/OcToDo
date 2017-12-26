@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="OcToDo">
+  <DataContextMoniker Name="/OcToDoDataContext" />
+  <nestedChildShapes>
+    <classShape Id="bd96317e-b2a9-43a8-bd19-e4d8c12ed256" absoluteBounds="0.625, 2, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/OcToDoDataContext/People" />
+      <nestedChildShapes>
+        <elementListCompartment Id="dcbbac19-7d18-4292-b753-83b2d58e6ccb" absoluteBounds="0.64, 2.46, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
