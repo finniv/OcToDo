@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace OcToDo.Commands
+namespace OcToDo.Model.Commands
 {
     class HelloCommand : Command
     {

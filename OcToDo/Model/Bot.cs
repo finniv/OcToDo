@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OcToDo.Commands;
+using OcToDo.Model.Commands;
 using Telegram.Bot;
 
 namespace OcToDo
@@ -33,13 +33,16 @@ namespace OcToDo
             _commandsList = new List<Command>
             {
                 new HelloCommand()
+                //TODO Добавить регистрацию
+                //TODO Добавить авторизацию
+                //TODO Добавить создание групп
+                //TODO Добавить создание тасков
             };
 
             Client = new TelegramBotClient(BotCore.BotToken);
             await Client.SetWebhookAsync();
             var me = Client.GetMeAsync().Result;
             Console.Title = me.Username;
-            
             return Client;
         }
     }
