@@ -32,8 +32,9 @@ namespace OcToDo
                 return Client;
             _commandsList = new List<Command>
             {
-                new HelloCommand()
-                //TODO Добавить регистрацию
+                new StartCommand(),
+                new RegisterCommand()
+                //DONE Добавить регистрацию
                 //TODO Добавить авторизацию
                 //TODO Добавить создание групп
                 //TODO Добавить создание тасков
