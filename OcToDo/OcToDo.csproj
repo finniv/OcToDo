@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -71,17 +71,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\MessageController.cs" />
+    <Compile Include="Data\DataBase\OcToDo.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OcToDo.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Data\DataBase\PeopleEntity.cs" />
     <Compile Include="Model\Bot.cs" />
     <Compile Include="Model\BotCore.cs" />
     <Compile Include="Model\Commands\Authorize.cs" />
     <Compile Include="Model\Commands\Command.cs" />
     <Compile Include="Model\Commands\StartCommand.cs" />
-    <Compile Include="Data\DataBase\OcToDo.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OcToDo.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Model\Commands\RegisterCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,7 +92,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Data\DataBase\OcToDo.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>OcToDo.designer.cs</LastGenOutput>

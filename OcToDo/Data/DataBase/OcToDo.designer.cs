@@ -33,10 +33,13 @@ namespace OcToDo.Data.DataBase
     partial void InsertPeople(People instance);
     partial void UpdatePeople(People instance);
     partial void DeletePeople(People instance);
+    partial void InsertTeam(Team instance);
+    partial void UpdateTeam(Team instance);
+    partial void DeleteTeam(Team instance);
     #endregion
 		
 		public OcToDoDataContext() : 
-				base(global::OcToDo.Properties.Settings.Default.OcToDoConnectionString, mappingSource)
+				base(global::OcToDo.Properties.Settings.Default.OcToDoConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}
@@ -72,6 +75,22 @@ namespace OcToDo.Data.DataBase
 				return this.GetTable<People>();
 			}
 		}
+		
+		public System.Data.Linq.Table<Team_content> Team_content
+		{
+			get
+			{
+				return this.GetTable<Team_content>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Team> Team
+		{
+			get
+			{
+				return this.GetTable<Team>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.People")]
@@ -94,11 +113,11 @@ namespace OcToDo.Data.DataBase
 		
 		private System.Nullable<System.DateTime> _BirthDate;
 		
-		private string _Telegram_ID;
+		private string _UserName;
 		
-		private string _Login;
+		private System.Nullable<int> _Telegram_ID;
 		
-		private string _Password;
+		private EntitySet<Team> _Team;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -118,16 +137,15 @@ namespace OcToDo.Data.DataBase
     partial void OnPhoneChanged();
     partial void OnBirthDateChanging(System.Nullable<System.DateTime> value);
     partial void OnBirthDateChanged();
-    partial void OnTelegram_IDChanging(string value);
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnTelegram_IDChanging(System.Nullable<int> value);
     partial void OnTelegram_IDChanged();
-    partial void OnLoginChanging(string value);
-    partial void OnLoginChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
     #endregion
 		
 		public People()
 		{
+			this._Team = new EntitySet<Team>(new Action<Team>(this.attach_Team), new Action<Team>(this.detach_Team));
 			OnCreated();
 		}
 		
@@ -271,8 +289,28 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Telegram_ID", DbType="NVarChar(64)")]
-		public string Telegram_ID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(64)")]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Telegram_ID", DbType="Int")]
+		public System.Nullable<int> Telegram_ID
 		{
 			get
 			{
@@ -291,42 +329,199 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Login", DbType="NVarChar(32)")]
-		public string Login
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Team", Storage="_Team", ThisKey="People_ID", OtherKey="TeamLeader_ID")]
+		public EntitySet<Team> Team
 		{
 			get
 			{
-				return this._Login;
+				return this._Team;
 			}
 			set
 			{
-				if ((this._Login != value))
+				this._Team.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Team(Team entity)
+		{
+			this.SendPropertyChanging();
+			entity.People = this;
+		}
+		
+		private void detach_Team(Team entity)
+		{
+			this.SendPropertyChanging();
+			entity.People = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team_content")]
+	public partial class Team_content
+	{
+		
+		private int _Team_ID;
+		
+		private int _People_ID;
+		
+		public Team_content()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Team_ID", DbType="Int NOT NULL")]
+		public int Team_ID
+		{
+			get
+			{
+				return this._Team_ID;
+			}
+			set
+			{
+				if ((this._Team_ID != value))
 				{
-					this.OnLoginChanging(value);
-					this.SendPropertyChanging();
-					this._Login = value;
-					this.SendPropertyChanged("Login");
-					this.OnLoginChanged();
+					this._Team_ID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(32)")]
-		public string Password
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_People_ID", DbType="Int NOT NULL")]
+		public int People_ID
 		{
 			get
 			{
-				return this._Password;
+				return this._People_ID;
 			}
 			set
 			{
-				if ((this._Password != value))
+				if ((this._People_ID != value))
 				{
-					this.OnPasswordChanging(value);
+					this._People_ID = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team")]
+	public partial class Team : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Team_ID;
+		
+		private int _TeamLeader_ID;
+		
+		private EntityRef<People> _People;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTeam_IDChanging(int value);
+    partial void OnTeam_IDChanged();
+    partial void OnTeamLeader_IDChanging(int value);
+    partial void OnTeamLeader_IDChanged();
+    #endregion
+		
+		public Team()
+		{
+			this._People = default(EntityRef<People>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Team_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Team_ID
+		{
+			get
+			{
+				return this._Team_ID;
+			}
+			set
+			{
+				if ((this._Team_ID != value))
+				{
+					this.OnTeam_IDChanging(value);
 					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
+					this._Team_ID = value;
+					this.SendPropertyChanged("Team_ID");
+					this.OnTeam_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamLeader_ID", DbType="Int NOT NULL")]
+		public int TeamLeader_ID
+		{
+			get
+			{
+				return this._TeamLeader_ID;
+			}
+			set
+			{
+				if ((this._TeamLeader_ID != value))
+				{
+					if (this._People.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTeamLeader_IDChanging(value);
+					this.SendPropertyChanging();
+					this._TeamLeader_ID = value;
+					this.SendPropertyChanged("TeamLeader_ID");
+					this.OnTeamLeader_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Team", Storage="_People", ThisKey="TeamLeader_ID", OtherKey="People_ID", IsForeignKey=true)]
+		public People People
+		{
+			get
+			{
+				return this._People.Entity;
+			}
+			set
+			{
+				People previousValue = this._People.Entity;
+				if (((previousValue != value) 
+							|| (this._People.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._People.Entity = null;
+						previousValue.Team.Remove(this);
+					}
+					this._People.Entity = value;
+					if ((value != null))
+					{
+						value.Team.Add(this);
+						this._TeamLeader_ID = value.People_ID;
+					}
+					else
+					{
+						this._TeamLeader_ID = default(int);
+					}
+					this.SendPropertyChanged("People");
 				}
 			}
 		}

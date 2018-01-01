@@ -11,9 +11,17 @@ namespace OcToDo.Model.Commands
     class Authorize:Command
     {
         public override string Name => "login";
-        public override void Execute(Message message, TelegramBotClient client)
+
+        public string Username { get; private set; }
+
+        public async override void Execute(Message message, TelegramBotClient client)
         {
-            
+            var chatId = message.Chat.Id;
+            var messageId = message.MessageId;
+            Username = message.Chat.Username;
+            await client.SendTextMessageAsync(chatId,
+                "Введите /setlogin",
+                replyToMessageId: messageId);
         }
     }
 }

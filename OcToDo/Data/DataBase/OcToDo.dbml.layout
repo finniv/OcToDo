@@ -2,11 +2,37 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="OcToDo">
   <DataContextMoniker Name="/OcToDoDataContext" />
   <nestedChildShapes>
-    <classShape Id="bd96317e-b2a9-43a8-bd19-e4d8c12ed256" absoluteBounds="0.625, 2, 2, 2.7324039713541666">
+    <classShape Id="c71f07d2-19f3-49e3-8448-311e2c441f0c" absoluteBounds="0.75, 1, 2, 2.5401025390625005">
       <DataClassMoniker Name="/OcToDoDataContext/People" />
       <nestedChildShapes>
-        <elementListCompartment Id="dcbbac19-7d18-4292-b753-83b2d58e6ccb" absoluteBounds="0.64, 2.46, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="7718b3fb-78f4-4c4f-b45c-d42e252b9ff7" absoluteBounds="0.765, 1.46, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="a5d3e68c-83ce-49bb-9b1f-f9aa49b24b2c" absoluteBounds="6.25, 1.625, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/OcToDoDataContext/Team_content" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e4a255d7-26be-47fa-b787-38c66ea3440f" absoluteBounds="6.265, 2.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="df79c444-9502-4d67-b2bc-cf7ef89008fb" absoluteBounds="3.5, 1.625, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/OcToDoDataContext/Team" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ec5257f4-5181-47d3-a5d4-505d7587792e" absoluteBounds="3.515, 2.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.5 : 2.22199625651042); (6.25 : 2.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/OcToDoDataContext/Team/Team_Team_content" />
+      <nodes>
+        <classShapeMoniker Id="df79c444-9502-4d67-b2bc-cf7ef89008fb" />
+        <classShapeMoniker Id="a5d3e68c-83ce-49bb-9b1f-f9aa49b24b2c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 2.22199625651042); (3.5 : 2.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/OcToDoDataContext/People/People_Team" />
+      <nodes>
+        <classShapeMoniker Id="c71f07d2-19f3-49e3-8448-311e2c441f0c" />
+        <classShapeMoniker Id="df79c444-9502-4d67-b2bc-cf7ef89008fb" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

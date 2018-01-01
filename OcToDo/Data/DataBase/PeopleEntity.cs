@@ -9,27 +9,20 @@ namespace OcToDo.Data.DataBase
         public OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
 
         #region Register
-
-        public void Register(string login,string password,string telegramId)
-        {
-            OcToDoDataContext db = new OcToDoDataContext();
-            db.GetTable<People>().InsertOnSubmit(new People() {Login = login, Password = password, Telegram_ID = telegramId});
-        }
-
-        public bool Register(string telegramId)
+        public bool Register(string userName,int userId)
         {
             bool status = false;
             People username = (from un in DbContext.People
-                where un.Telegram_ID == telegramId
+                where un.UserName == userName || un.Telegram_ID == userId
                 select un).SingleOrDefault();
 
             if (username == null)
             {
-                DbContext.GetTable<People>().InsertOnSubmit(new People() { Telegram_ID = telegramId });
+                DbContext.GetTable<People>().InsertOnSubmit(new People() { UserName = userName,Telegram_ID=userId });
                 DbContext.SubmitChanges();
                 status = true;
             }
-            else if  (username.Telegram_ID==telegramId)
+            else if  (username.UserName==userName)
             {
                 status = false;
             }
@@ -48,7 +41,7 @@ namespace OcToDo.Data.DataBase
         {
             bool status = false;
             People isRegisteredPeople = (from reg in DbContext.People
-                where reg.Telegram_ID == telegramId
+                where reg.UserName == telegramId
                 select reg).SingleOrDefault();
             if (isRegisteredPeople != null)
             {

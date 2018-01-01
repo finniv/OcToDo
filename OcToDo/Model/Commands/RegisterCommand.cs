@@ -10,26 +10,16 @@ namespace OcToDo.Model.Commands
     {
         public override string Name => "register";
 
-        public string Telegram_ID
-        {
-            get
-            {
-                return telegram_ID;
-            }
-
-            set
-            {
-                telegram_ID = value;
-            }
-        }
-
-        private string telegram_ID;
+        public string Username { get; private set; }
+        public int UserId   { get; private set; }
 
         public override async void Execute(Message message, TelegramBotClient client)
         {
             var chatId = message.Chat.Id;
             var messageId = message.MessageId;
-            Telegram_ID = message.Chat.Username;
+            User user = message.From;
+            Username = user.Username;
+            UserId = user.Id;
             await client.SendTextMessageAsync(chatId,
                 "Введите /setlogin",
                 replyToMessageId: messageId);
@@ -41,7 +31,7 @@ namespace OcToDo.Model.Commands
         {
             TelegramBotClient client = await Bot.GetTask();
             PeopleEntity peopleEntity = new PeopleEntity();
-            if (peopleEntity.Register(Telegram_ID))
+            if (peopleEntity.Register(Username,UserId))
             {
                 
 
