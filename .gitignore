@@ -260,5 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 
+/img/
 /OcToDo/Model/BotCore.cs
 /OcToDo/ClassDiagram1.cd
