@@ -3,9 +3,9 @@ using Telegram.Bot.Types;
 
 namespace OcToDo.Model.Commands
 {
-    class HelloCommand : Command
+    class StartCommand : Command
     {
-        public override string Name => "hello";
+        public override string Name => "start";
 
         public override async void Execute(Message message, TelegramBotClient client)
         {
@@ -13,7 +13,7 @@ namespace OcToDo.Model.Commands
             var messageId = message.MessageId;
 
             await client.SendTextMessageAsync(chatId,
-                "Добро пожаловать в OcToDo, предлагаю вам авторизоваться или зарегистрироваться",
+                "Добро пожаловать в OcToDo, предлагаю вам авторизоваться или зарегистрироваться для этого введите /register или /login",
                 replyToMessageId: messageId);
         }
         //TODO:Добавить обработку регистрации.
