@@ -31,13 +31,20 @@ namespace OcToDo.Model.Commands
         {
             TelegramBotClient client = await Bot.GetTask();
             PeopleEntity peopleEntity = new PeopleEntity();
-            if (peopleEntity.Register(Username,UserId))
+            byte statusCode = peopleEntity.Register(Username, UserId);
+            if (statusCode == 1)
             {
-                
-
                 await client.SendTextMessageAsync(e.Message.Chat.Id, "Регистрация успешна");
             }
-            else
+            else if (statusCode == 2)
+            {
+                await client.SendTextMessageAsync(e.Message.Chat.Id, "Данные обновлены");
+            }
+            else if (statusCode == 3)
+            {
+                await client.SendTextMessageAsync(e.Message.Chat.Id, "Вы уже в системе");
+            }
+            else if(statusCode == 0)
             {
                 await client.SendTextMessageAsync(e.Message.Chat.Id, "Регистрация не успешна");
             }

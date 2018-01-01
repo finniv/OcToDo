@@ -36,15 +36,15 @@ namespace OcToDo.Data.DataBase
     partial void InsertTeam(Team instance);
     partial void UpdateTeam(Team instance);
     partial void DeleteTeam(Team instance);
-    #endregion
-		
-		public OcToDoDataContext() : 
-				base(global::OcToDo.Properties.Settings.Default.OcToDoConnectionString2, mappingSource)
-		{
-			OnCreated();
-		}
-		
-		public OcToDoDataContext(string connection) : 
+        #endregion
+
+        public OcToDoDataContext() :
+                base(global::OcToDo.Properties.Settings.Default.OcToDoConnectionString, mappingSource)
+        {
+            OnCreated();
+        }
+
+        public OcToDoDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();

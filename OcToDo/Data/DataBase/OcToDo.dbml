@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="OcToDo" Class="OcToDoDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Education\Database\OcToDo\OcToDo.mdf;Integrated Security=True;Connect Timeout=30" SettingsObjectName="OcToDo.Properties.Settings" SettingsPropertyName="OcToDoConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.People" Member="People">
     <Type Name="People">
       <Column Name="People_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

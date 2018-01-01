@@ -6,27 +6,37 @@ namespace OcToDo.Data.DataBase
 {
     public class PeopleEntity
     {
-        public OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
-
+        //public OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
+        OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
         #region Register
-        public bool Register(string userName,int userId)
+        public byte Register(string userName,int userId)
         {
-            bool status = false;
-            People username = (from un in DbContext.People
+            byte statusCode = 0;
+            People people = (from un in DbContext.People
                 where un.UserName == userName || un.Telegram_ID == userId
                 select un).SingleOrDefault();
 
-            if (username == null)
+            if (people == null)
             {
-                DbContext.GetTable<People>().InsertOnSubmit(new People() { UserName = userName,Telegram_ID=userId });
+                DbContext.GetTable<People>().InsertOnSubmit(new People() { UserName = userName, Telegram_ID = userId });
                 DbContext.SubmitChanges();
-                status = true;
+                statusCode = 1;
             }
-            else if  (username.UserName==userName)
+            else if (people.Telegram_ID == userId && people.UserName != userName)
             {
-                status = false;
+                people.UserName = userName;
+                statusCode = 2;
+                DbContext.SubmitChanges();
             }
-            return status;
+            else if (people.Telegram_ID == userId && people.UserName == userName)
+            {
+                statusCode = 3;
+            }
+            else
+            {
+                statusCode = 0;
+            }
+            return statusCode;
         }
 
         public void Register(string fName, string mName, string lName, string adress, string phone, string birthDate,
