@@ -1,18 +1,16 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
-using System.Data.Linq;
+﻿using System;
+using System.Linq;
 
 namespace OcToDo.Data.DataBase
 {
-    public class PeopleEntity
+    public class PeopleEntity 
     {
-        //public OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
-        OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
+        private OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
         #region Register
         public byte Register(string userName,int userId)
         {
-            byte statusCode = 0;
-            People people = (from un in DbContext.People
+            byte statusCode;
+            var people = (from un in DbContext.People
                 where un.UserName == userName || un.Telegram_ID == userId
                 select un).SingleOrDefault();
 
@@ -49,18 +47,19 @@ namespace OcToDo.Data.DataBase
 
         public bool Authorize(string telegramId)
         {
-            bool status = false;
-            People isRegisteredPeople = (from reg in DbContext.People
+            var status = false;
+            var isRegisteredPeople = (from reg in DbContext.People
                 where reg.UserName == telegramId
                 select reg).SingleOrDefault();
             if (isRegisteredPeople != null)
             {
                 status = true;
             }
-            else if (isRegisteredPeople == null)
+            else
             {
                 status = false;
             }
+
             return status;
         }
     }

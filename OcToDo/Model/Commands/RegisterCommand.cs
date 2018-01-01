@@ -1,5 +1,4 @@
-﻿using System;
-using OcToDo.Data.DataBase;
+﻿using OcToDo.Data.DataBase;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
@@ -10,44 +9,43 @@ namespace OcToDo.Model.Commands
     {
         public override string Name => "register";
 
-        public string Username { get; private set; }
-        public int UserId   { get; private set; }
-
         public override async void Execute(Message message, TelegramBotClient client)
         {
-            var chatId = message.Chat.Id;
-            var messageId = message.MessageId;
-            User user = message.From;
-            Username = user.Username;
-            UserId = user.Id;
-            await client.SendTextMessageAsync(chatId,
-                "Введите /setlogin",
-                replyToMessageId: messageId);
-
-            client.OnMessage += SetLogin;
+            var peopleEntity = new PeopleEntity();
+            var user = message.From;
+            var Username = user.Username;
+            var UserId = user.Id;
+            await Register(message, client, peopleEntity, Username, UserId);
         }
 
-        private async void SetLogin(object sender, MessageEventArgs e)
+        private static async System.Threading.Tasks.Task<PeopleEntity> Register(Message message, TelegramBotClient client, PeopleEntity peopleEntity, string Username, int UserId)
         {
-            TelegramBotClient client = await Bot.GetTask();
-            PeopleEntity peopleEntity = new PeopleEntity();
-            byte statusCode = peopleEntity.Register(Username, UserId);
-            if (statusCode == 1)
+            var statusCode = peopleEntity.Register(Username, UserId);
+            switch (statusCode)
             {
-                await client.SendTextMessageAsync(e.Message.Chat.Id, "Регистрация успешна");
+                case 1:
+                    await client.SendTextMessageAsync(message.Chat.Id, "Регистрация успешна");
+                    peopleEntity = null;
+                    break;
+                case 2:
+                    await client.SendTextMessageAsync(message.Chat.Id, "Данные обновлены");
+                    peopleEntity = null;
+                    break;
+                case 3:
+                    await client.SendTextMessageAsync(message.Chat.Id, "Вы уже в системе зарегистрированы");
+                    peopleEntity = null;
+                    break;
+                case 0:
+                    await client.SendTextMessageAsync(message.Chat.Id, "Регистрация не успешна");
+                    peopleEntity = null;
+                    break;
+                default:
+                    await client.SendTextMessageAsync(message.Chat.Id, "Регистрация не успешна");
+                    peopleEntity = null;
+                    break;
             }
-            else if (statusCode == 2)
-            {
-                await client.SendTextMessageAsync(e.Message.Chat.Id, "Данные обновлены");
-            }
-            else if (statusCode == 3)
-            {
-                await client.SendTextMessageAsync(e.Message.Chat.Id, "Вы уже в системе");
-            }
-            else if(statusCode == 0)
-            {
-                await client.SendTextMessageAsync(e.Message.Chat.Id, "Регистрация не успешна");
-            }
+
+            return peopleEntity;
         }
     }
 }
