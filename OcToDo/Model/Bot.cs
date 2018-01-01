@@ -33,7 +33,8 @@ namespace OcToDo
             _commandsList = new List<Command>
             {
                 new StartCommand(),
-                new RegisterCommand()
+                new RegisterCommand(),
+                new AuthorizeCommand()
                 //DONE Добавить регистрацию
                 //TODO Добавить авторизацию
                 //TODO Добавить создание групп
