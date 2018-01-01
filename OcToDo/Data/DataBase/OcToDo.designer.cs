@@ -36,15 +36,15 @@ namespace OcToDo.Data.DataBase
     partial void InsertTeam(Team instance);
     partial void UpdateTeam(Team instance);
     partial void DeleteTeam(Team instance);
-        #endregion
-
-        public OcToDoDataContext() :
-                base(global::OcToDo.Properties.Settings.Default.OcToDoConnectionString, mappingSource)
-        {
-            OnCreated();
-        }
-
-        public OcToDoDataContext(string connection) : 
+    #endregion
+		
+		public OcToDoDataContext() : 
+				base(global::OcToDo.Properties.Settings.Default.OcToDoConnectionString1, mappingSource)
+		{
+			OnCreated();
+		}
+		
+		public OcToDoDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
@@ -428,6 +428,8 @@ namespace OcToDo.Data.DataBase
 		
 		private int _Team_ID;
 		
+		private string _TeamName;
+		
 		private int _TeamLeader_ID;
 		
 		private EntityRef<People> _People;
@@ -438,6 +440,8 @@ namespace OcToDo.Data.DataBase
     partial void OnCreated();
     partial void OnTeam_IDChanging(int value);
     partial void OnTeam_IDChanged();
+    partial void OnTeamNameChanging(string value);
+    partial void OnTeamNameChanged();
     partial void OnTeamLeader_IDChanging(int value);
     partial void OnTeamLeader_IDChanged();
     #endregion
@@ -464,6 +468,26 @@ namespace OcToDo.Data.DataBase
 					this._Team_ID = value;
 					this.SendPropertyChanged("Team_ID");
 					this.OnTeam_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamName", DbType="NVarChar(60) NOT NULL", CanBeNull=false)]
+		public string TeamName
+		{
+			get
+			{
+				return this._TeamName;
+			}
+			set
+			{
+				if ((this._TeamName != value))
+				{
+					this.OnTeamNameChanging(value);
+					this.SendPropertyChanging();
+					this._TeamName = value;
+					this.SendPropertyChanged("TeamName");
+					this.OnTeamNameChanged();
 				}
 			}
 		}

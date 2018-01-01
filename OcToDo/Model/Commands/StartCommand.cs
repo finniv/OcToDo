@@ -5,7 +5,7 @@ namespace OcToDo.Model.Commands
 {
     class StartCommand : Command
     {
-        public override string Name => "start";
+        protected override string Name => "start";
 
         public override async void Execute(Message message, TelegramBotClient client)
         {

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="OcToDo" Class="OcToDoDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Education\Database\OcToDo\OcToDo.mdf;Integrated Security=True;Connect Timeout=30" SettingsObjectName="OcToDo.Properties.Settings" SettingsPropertyName="OcToDoConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.People" Member="People">
     <Type Name="People">
       <Column Name="People_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -23,6 +24,7 @@
   <Table Name="dbo.Team" Member="Team">
     <Type Name="Team">
       <Column Name="Team_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TeamName" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
       <Column Name="TeamLeader_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Team_Team_content" Member="Team_content" ThisKey="Team_ID" OtherKey="Team_ID" Type="Team_content" />
       <Association Name="People_Team" Member="People" ThisKey="TeamLeader_ID" OtherKey="People_ID" Type="People" IsForeignKey="true" />

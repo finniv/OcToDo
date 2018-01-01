@@ -5,7 +5,7 @@ namespace OcToDo.Model.Commands
 {
     public abstract class Command
     {
-        public abstract string Name { get; }
+        protected abstract string Name { get; }
 
         public abstract void Execute(Message message, TelegramBotClient client);
 

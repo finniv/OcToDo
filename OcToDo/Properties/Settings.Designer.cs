@@ -33,5 +33,16 @@ namespace OcToDo.Properties {
                 return ((string)(this["OcToDoConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=E:\\Education\\Database\\OcToDo\\" +
+            "OcToDo.mdf;Integrated Security=True;Connect Timeout=30")]
+        public string OcToDoConnectionString1 {
+            get {
+                return ((string)(this["OcToDoConnectionString1"]));
+            }
+        }
     }
 }

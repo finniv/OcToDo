@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OcToDo.Model;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 
-namespace OcToDo
+namespace OcToDo.Controller
 {
     public static class MessageController
     {

@@ -4,27 +4,15 @@ using System.Threading.Tasks;
 using OcToDo.Model.Commands;
 using Telegram.Bot;
 
-namespace OcToDo
+namespace OcToDo.Model
 {
     public static class Bot
     {
-        private static TelegramBotClient client;
         private static List<Command> _commandsList;
 
         public static IReadOnlyList<Command> Commands => _commandsList.AsReadOnly();
 
-        public static TelegramBotClient Client
-        {
-            get
-            {
-                return client;
-            }
-
-            set
-            {
-                client = value;
-            }
-        }
+        public static TelegramBotClient Client { get; private set; }
 
         public static async Task<TelegramBotClient> GetTask()
         {

@@ -14,24 +14,24 @@
         <elementListCompartment Id="0355e93f-e655-48f8-a49d-b1eeaf06d01b" absoluteBounds="6.265, 2.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="f125b5ad-2484-4395-8f3b-7ab7962f4acf" absoluteBounds="3.5, 1.625, 2, 1.1939925130208335">
+    <classShape Id="e0cabb70-48f0-4787-a027-556531462f80" absoluteBounds="3.625, 1.5, 2, 1.3862939453125">
       <DataClassMoniker Name="/OcToDoDataContext/Team" />
       <nestedChildShapes>
-        <elementListCompartment Id="17356e10-2ffb-46f4-81a0-7a59e8532a32" absoluteBounds="3.515, 2.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="136f83b1-538f-4755-a287-6f2394e56964" absoluteBounds="3.64, 1.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.5 : 2.22199625651042); (6.25 : 2.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.625 : 2.22199625651042); (6.25 : 2.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/OcToDoDataContext/Team/Team_Team_content" />
       <nodes>
-        <classShapeMoniker Id="f125b5ad-2484-4395-8f3b-7ab7962f4acf" />
+        <classShapeMoniker Id="e0cabb70-48f0-4787-a027-556531462f80" />
         <classShapeMoniker Id="06f019be-7779-40dd-bf0d-0f2ae49571bb" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 2.22199625651042); (3.5 : 2.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 2.19314697265625); (3.625 : 2.19314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/OcToDoDataContext/People/People_Team" />
       <nodes>
         <classShapeMoniker Id="797fc288-4db2-47f0-9a0d-54757dab2176" />
-        <classShapeMoniker Id="f125b5ad-2484-4395-8f3b-7ab7962f4acf" />
+        <classShapeMoniker Id="e0cabb70-48f0-4787-a027-556531462f80" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

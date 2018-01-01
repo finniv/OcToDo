@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
+using OcToDo.Controller;
+using OcToDo.Model;
 
 namespace OcToDo
 {
-    class Program
+    internal static class Program
     {
         static void Main()
         {

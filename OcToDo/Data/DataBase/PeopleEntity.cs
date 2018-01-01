@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace OcToDo.Data.DataBase
 {
@@ -36,29 +35,14 @@ namespace OcToDo.Data.DataBase
             }
             return statusCode;
         }
-
-        public void Register(string fName, string mName, string lName, string adress, string phone, string birthDate,
-            string telegramId, string login, string password)
-        {
-
-        }
-
         #endregion
 
         public bool Authorize(string telegramId)
         {
-            var status = false;
             var isRegisteredPeople = (from reg in DbContext.People
                 where reg.UserName == telegramId
                 select reg).SingleOrDefault();
-            if (isRegisteredPeople != null)
-            {
-                status = true;
-            }
-            else
-            {
-                status = false;
-            }
+            var status = isRegisteredPeople != null;
 
             return status;
         }
