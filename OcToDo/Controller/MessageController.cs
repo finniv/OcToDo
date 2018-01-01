@@ -13,7 +13,6 @@ namespace OcToDo
         {
             var commands = Bot.Commands;
             Message messeage = eventArgs.Message;
-            ChatId chatId = messeage.Chat.Id;
             var client = await Bot.GetTask();
             foreach (var command in commands)
             {
