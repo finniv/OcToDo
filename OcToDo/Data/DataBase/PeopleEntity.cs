@@ -1,43 +1,64 @@
-﻿using System.Data.Linq;
-using System.Linq;
+﻿using System.Linq;
+using System.Security.Cryptography;
+using System.Data.Linq;
 
 namespace OcToDo.Data.DataBase
 {
     public class PeopleEntity
     {
-        public void Register(string Login,string Password,string Telegram_ID)
+        public OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
+
+        #region Register
+
+        public void Register(string login,string password,string telegramId)
         {
             OcToDoDataContext db = new OcToDoDataContext();
-            db.GetTable<People>().InsertOnSubmit(new People() {Login = Login, Password = Password, Telegram_ID = Telegram_ID});
+            db.GetTable<People>().InsertOnSubmit(new People() {Login = login, Password = password, Telegram_ID = telegramId});
         }
 
-        public bool Register(string Telegram_ID)
+        public bool Register(string telegramId)
         {
-
-            OcToDoDataContext dbContext = new OcToDoDataContext();
-
-            People username = (from un in dbContext.People
-                where un.Telegram_ID == Telegram_ID
-                select un).SingleOrDefault<People>();
+            bool status = false;
+            People username = (from un in DbContext.People
+                where un.Telegram_ID == telegramId
+                select un).SingleOrDefault();
 
             if (username == null)
             {
-                dbContext.GetTable<People>().InsertOnSubmit(new People() { Telegram_ID = Telegram_ID });
-                dbContext.SubmitChanges();
+                DbContext.GetTable<People>().InsertOnSubmit(new People() { Telegram_ID = telegramId });
+                DbContext.SubmitChanges();
+                status = true;
             }
-            else if  (username.Telegram_ID==Telegram_ID)
+            else if  (username.Telegram_ID==telegramId)
             {
-                return false;
+                status = false;
             }
-            
-
-            return true;
+            return status;
         }
 
-        public void Register(string FName, string MName, string LName, string Adress, string Phone, string BirthDate,
-            string Telegram_ID, string Login, string Password)
+        public void Register(string fName, string mName, string lName, string adress, string phone, string birthDate,
+            string telegramId, string login, string password)
         {
 
+        }
+
+        #endregion
+
+        public bool Authorize(string telegramId)
+        {
+            bool status = false;
+            People isRegisteredPeople = (from reg in DbContext.People
+                where reg.Telegram_ID == telegramId
+                select reg).SingleOrDefault();
+            if (isRegisteredPeople != null)
+            {
+                status = true;
+            }
+            else if (isRegisteredPeople == null)
+            {
+                status = false;
+            }
+            return status;
         }
     }
 }

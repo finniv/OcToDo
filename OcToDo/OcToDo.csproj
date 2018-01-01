@@ -74,6 +74,7 @@
     <Compile Include="Data\DataBase\PeopleEntity.cs" />
     <Compile Include="Model\Bot.cs" />
     <Compile Include="Model\BotCore.cs" />
+    <Compile Include="Model\Commands\Authorize.cs" />
     <Compile Include="Model\Commands\Command.cs" />
     <Compile Include="Model\Commands\StartCommand.cs" />
     <Compile Include="Data\DataBase\OcToDo.designer.cs">
