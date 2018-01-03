@@ -2,16 +2,16 @@
 
 namespace OcToDo.Data.DataBase
 {
-    public class PeopleEntity 
+    public class PeopleEntity : DbConnection
     {
-        private OcToDoDataContext DbContext { get; } = new OcToDoDataContext();
+        
         #region Register
-        public byte Register(string userName,int userId)
+        public sbyte Register(string userName,int userId)
         {
-            byte statusCode;
+            sbyte statusCode;
             var people = (from un in DbContext.People
                 where un.UserName == userName || un.Telegram_ID == userId
-                select un).SingleOrDefault();
+                select un).FirstOrDefault();
 
             if (people == null)
             {
@@ -27,7 +27,7 @@ namespace OcToDo.Data.DataBase
             }
             else if (people.Telegram_ID == userId && people.UserName == userName)
             {
-                statusCode = 3;
+                statusCode = -1;
             }
             else
             {
@@ -36,6 +36,14 @@ namespace OcToDo.Data.DataBase
             return statusCode;
         }
         #endregion
+
+        public int? FindPeople(string userName)
+        {
+            var people = (from un in DbContext.People
+                where un.UserName == userName
+                select un).FirstOrDefault();
+            return people?.People_ID;
+        }
 
         public bool Authorize(string telegramId)
         {
