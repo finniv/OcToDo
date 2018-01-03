@@ -16,7 +16,7 @@ namespace OcToDo.Data.DataBase
                 DbContext.SubmitChanges();
                 statusCode = 1;
             }
-            else if (team.TeamName == teamName || team.TeamLeader_ID == teamLeader)
+            else if ((team.TeamName == teamName && team.TeamLeader_ID != teamLeader)||(team.TeamName!=teamName && team.TeamLeader_ID==teamLeader))
             {
                 DbContext.GetTable<Team>().InsertOnSubmit(new Team { TeamName = teamName, TeamLeader_ID = teamLeader });
                 DbContext.SubmitChanges();

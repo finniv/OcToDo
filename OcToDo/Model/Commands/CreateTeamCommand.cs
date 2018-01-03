@@ -1,5 +1,7 @@
-﻿using OcToDo.Data.DataBase;
+﻿using System;
+using OcToDo.Data.DataBase;
 using Telegram.Bot;
+using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -28,7 +30,7 @@ namespace OcToDo.Model.Commands
                 return;
             }
 
-           await client.SendTextMessageAsync(chatId,
+            await client.SendTextMessageAsync(chatId,
                 "Введите имя команды",
                 replyToMessageId: messageId);
             client.OnMessage += AddName;
@@ -45,8 +47,26 @@ namespace OcToDo.Model.Commands
             }
 
             var tmEntity = new TeamEntity().CreateTeam(TeamName, (int) peopleId);
-            Client.SendTextMessageAsync(message.Chat.Id, "Команда создана.",
-                replyToMessageId: message.MessageId);
+            switch (tmEntity)
+            {
+                case 1:
+                case 2:
+                    Client.SendTextMessageAsync(message.Chat.Id, "Команда создана.",
+                        replyToMessageId: message.MessageId);
+                    break;
+                case 0:
+                    Client.SendTextMessageAsync(message.Chat.Id, "Ошибка.",
+                        replyToMessageId: message.MessageId);
+                    break;
+                case -1:
+                    Client.SendTextMessageAsync(message.Chat.Id, "Ошибка! Команда уже создана.",
+                        replyToMessageId: message.MessageId);
+                    break;
+                default:
+                    Client.SendTextMessageAsync(message.Chat.Id, "Команда создана.",
+                        replyToMessageId: message.MessageId);
+                    break;
+            }
         }
 
         private void AddName(object sender, Telegram.Bot.Args.MessageEventArgs e)
@@ -57,11 +77,13 @@ namespace OcToDo.Model.Commands
                     replyToMessageId: e.Message.MessageId);
                 TeamName = e.Message.Text;
                 FindPeopleId(e.Message);
+                Client.OnMessage -= AddName;
             }
             else
             {
                 Client.SendTextMessageAsync(e.Message.Chat.Id, "Не корректно.Введите /createTeam",
                     replyToMessageId: e.Message.MessageId);
+                Client.OnMessage -= AddName;
             }
         }
     }
