@@ -7,7 +7,7 @@ namespace OcToDo.Model.Commands
 {
     class RegisterCommand : Command
     {
-        protected override string Name => "register";
+        protected override string Name => "/register";
 
         public override async void Execute(Message message, TelegramBotClient client)
         {
@@ -29,8 +29,8 @@ namespace OcToDo.Model.Commands
                 case 2:
                     await client.SendTextMessageAsync(message.Chat.Id, "Данные обновлены");
                     break;
-                case 3:
-                    await client.SendTextMessageAsync(message.Chat.Id, "Вы уже в системе зарегистрированы");
+                case -1:
+                    await client.SendTextMessageAsync(message.Chat.Id, "Уже зарегистрированы в системе");
                     break;
                 case 0:
                     await client.SendTextMessageAsync(message.Chat.Id, "Регистрация не успешна");

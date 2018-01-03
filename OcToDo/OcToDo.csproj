@@ -71,16 +71,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\MessageController.cs" />
+    <Compile Include="Data\DataBase\DbConnection.cs" />
     <Compile Include="Data\DataBase\OcToDo.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OcToDo.dbml</DependentUpon>
     </Compile>
     <Compile Include="Data\DataBase\PeopleEntity.cs" />
+    <Compile Include="Data\DataBase\TeamEntity.cs" />
     <Compile Include="Model\Bot.cs" />
     <Compile Include="Model\BotCore.cs" />
     <Compile Include="Model\Commands\AuthorizeCommand.cs" />
     <Compile Include="Model\Commands\Command.cs" />
+    <Compile Include="Model\Commands\CreateTeamCommand.cs" />
     <Compile Include="Model\Commands\StartCommand.cs" />
     <Compile Include="Model\Commands\RegisterCommand.cs" />
     <Compile Include="Program.cs" />

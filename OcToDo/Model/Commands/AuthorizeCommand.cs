@@ -5,7 +5,7 @@ namespace OcToDo.Model.Commands
 {
     class AuthorizeCommand:Command
     {
-        protected override string Name => "authorize";
+        protected override string Name => "/authorize";
         
         public override async void Execute(Message message, TelegramBotClient client)
         {

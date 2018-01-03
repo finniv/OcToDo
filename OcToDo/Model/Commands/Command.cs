@@ -16,7 +16,7 @@ namespace OcToDo.Model.Commands
             {
                 command = "/start";
             }
-            return command.Contains(Name);
+            return command==Name;
         }
     }
 }
