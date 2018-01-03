@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using System;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace OcToDo.Model.Commands
@@ -8,9 +9,13 @@ namespace OcToDo.Model.Commands
         protected abstract string Name { get; }
 
         public abstract void Execute(Message message, TelegramBotClient client);
-
+        
         public bool Contains(string command)
         {
+            if (command == null)
+            {
+                command = "/start";
+            }
             return command.Contains(Name);
         }
     }
