@@ -5,6 +5,7 @@ using OcToDo.Model;
 using OcToDo.Model.Commands;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace OcToDo.Controller
 {
@@ -16,21 +17,25 @@ namespace OcToDo.Controller
             var messeage = eventArgs.Message;
             var client = await Bot.GetTask();
             var current = 0;
-            foreach (var command in commands)
+            if (messeage.Type == MessageType.TextMessage && messeage.Text[0].ToString()=="/")
             {
-                var contains = command.Contains(messeage.Text);
-                if (contains)
+                foreach (var command in commands)
                 {
-                    command.Execute(messeage, client);
-                    break;
-                }
 
-                current++;
-                if (commands.Count == current)
-                {
-                    messeage.Text = "/start";
-                    var elementAtOrDefault = commands.ElementAtOrDefault(0);
-                    elementAtOrDefault?.Execute(messeage, client);
+                    var contains = command.Contains(messeage.Text);
+                    if (contains)
+                    {
+                        command.Execute(messeage, client);
+                        break;
+                    }
+
+                    current++;
+                    if (commands.Count == current)
+                    {
+                        messeage.Text = "/start";
+                        var elementAtOrDefault = commands.ElementAtOrDefault(0);
+                        elementAtOrDefault?.Execute(messeage, client);
+                    }
                 }
             }
         }
