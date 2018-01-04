@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 
 namespace OcToDo.Data.DataBase
 {
@@ -33,18 +34,76 @@ namespace OcToDo.Data.DataBase
             
             return statusCode;
         }
+
         public int? FindTeam(string teamName)
         {
-            var people = (from un in DbContext.Team
+            var team = (from un in DbContext.Team
                 where un.TeamName == teamName
                 select un).FirstOrDefault();
-            return people?.Team_ID;
+            return team?.Team_ID;
         }
 
-        public void AddToTeam(int teamId,int peopleId)
+        public sbyte AddToTeam(int teamId,int peopleId)
         {
-            DbContext.GetTable<Team_content>().InsertOnSubmit(new Team_content() { Team_ID = teamId, People_ID = peopleId });
-            DbContext.SubmitChanges();
+            sbyte statucCode=0;
+            var teamContains = (from teamContent in DbContext.Team_content
+                where teamContent.People_ID == teamId || teamContent.Team_ID == teamId
+                select teamContent).SingleOrDefault();
+            if (teamContains == null)
+            {
+                DbContext.GetTable<Team_content>()
+                    .InsertOnSubmit(new Team_content() {Team_ID = teamId, People_ID = peopleId});
+                DbContext.SubmitChanges();
+               return statucCode = 1;
+            }
+
+            if ((teamContains.Team_ID==teamId && teamContains.People_ID!=peopleId) || (teamContains.Team_ID!=teamId && teamContains.People_ID==peopleId))
+            {
+                DbContext.GetTable<Team_content>()
+                    .InsertOnSubmit(new Team_content() { Team_ID = teamId, People_ID = peopleId });
+                DbContext.SubmitChanges();
+                return statucCode = 1;
+            }
+            if(teamContains.People_ID==peopleId&&teamContains.Team_ID==teamId)
+            {
+               return statucCode = 0;
+            }
+
+            return statucCode;
+        }
+
+        public string ShowTeam(string username)
+        {
+            var people = (from un in DbContext.People
+                          where un.UserName == username
+                          select un).FirstOrDefault();
+            var team = (from t in DbContext.Team
+                        where t.TeamLeader_ID == people.People_ID
+                        select t).ToArray();
+            var teamList = "";
+            for (var i=0;i<team.Length;i++)
+            {
+                teamList += "\n" + (i+1)+"." + team[i].TeamName;
+            }
+            
+            Debug.WriteLine(teamList);
+            return teamList;
+        }
+
+        public int? FindTeamIdByIndex(int index, string username)
+        {
+            var peopleId = (from p in DbContext.People
+                where p.UserName == username
+                select p).Single();
+            if (peopleId == null)
+            {
+                return null;
+            }
+
+            var teamId = (from team in DbContext.Team
+                where team.TeamLeader_ID == peopleId.People_ID
+                select team).ToArray();
+            return teamId[index-1].Team_ID;
         }
     }
 }

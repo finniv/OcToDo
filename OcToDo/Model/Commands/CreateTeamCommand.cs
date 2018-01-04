@@ -12,16 +12,16 @@ namespace OcToDo.Model.Commands
         private string TeamName { get; set; }
         private int LeaderId { get; set; }
 
-        protected override string Name => "/createTeam";
+        protected override string Name => "/createteam";
 
-        public TelegramBotClient Client { get; set; }
-
+        protected override TelegramBotClient Client { get; set; }
+        
         public override async void Execute(Message message, TelegramBotClient client)
         {
             Client = client;
             var chatId = message.Chat.Id;
             var messageId = message.MessageId;
-            var plEntity = new PeopleEntity().FindPeople(message.From.Username);
+            var plEntity = new PeopleEntity().FindPeopleId(message.From.Username);
             if (plEntity == null)
             {
                 await client.SendTextMessageAsync(chatId,
@@ -38,7 +38,7 @@ namespace OcToDo.Model.Commands
 
         private void FindPeopleId(Message message)
         {
-            var peopleId = new PeopleEntity().FindPeople(message.From.Username);
+            var peopleId = new PeopleEntity().FindPeopleId(message.From.Username);
             if (peopleId == null)
             {
                 Client.SendTextMessageAsync(message.Chat.Id, "Ошибка создания команды",
@@ -78,12 +78,14 @@ namespace OcToDo.Model.Commands
                 TeamName = e.Message.Text;
                 FindPeopleId(e.Message);
                 Client.OnMessage -= AddName;
+                Client = null;
             }
             else
             {
                 Client.SendTextMessageAsync(e.Message.Chat.Id, "Не корректно.Введите /createTeam",
                     replyToMessageId: e.Message.MessageId);
                 Client.OnMessage -= AddName;
+                Client = null;
             }
         }
     }

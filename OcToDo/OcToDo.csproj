@@ -81,6 +81,7 @@
     <Compile Include="Data\DataBase\TeamEntity.cs" />
     <Compile Include="Model\Bot.cs" />
     <Compile Include="Model\BotCore.cs" />
+    <Compile Include="Model\Commands\AddToTeamCommand.cs" />
     <Compile Include="Model\Commands\AuthorizeCommand.cs" />
     <Compile Include="Model\Commands\Command.cs" />
     <Compile Include="Model\Commands\CreateTeamCommand.cs" />

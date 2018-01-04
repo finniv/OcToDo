@@ -37,7 +37,7 @@ namespace OcToDo.Data.DataBase
         }
         #endregion
 
-        public int? FindPeople(string userName)
+        public int? FindPeopleId(string userName)
         {
             var people = (from un in DbContext.People
                 where un.UserName == userName

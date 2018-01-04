@@ -8,6 +8,7 @@ namespace OcToDo.Model.Commands
     class RegisterCommand : Command
     {
         protected override string Name => "/register";
+        protected override TelegramBotClient Client { get; set; }
 
         public override async void Execute(Message message, TelegramBotClient client)
         {

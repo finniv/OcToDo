@@ -8,6 +8,8 @@ namespace OcToDo.Model.Commands
     {
         protected abstract string Name { get; }
 
+        protected abstract TelegramBotClient Client { get; set; }
+
         public abstract void Execute(Message message, TelegramBotClient client);
         
         public bool Contains(string command)

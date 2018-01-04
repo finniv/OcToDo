@@ -36,6 +36,9 @@ namespace OcToDo.Data.DataBase
     partial void InsertTeam(Team instance);
     partial void UpdateTeam(Team instance);
     partial void DeleteTeam(Team instance);
+    partial void InsertTeam_content(Team_content instance);
+    partial void UpdateTeam_content(Team_content instance);
+    partial void DeleteTeam_content(Team_content instance);
     #endregion
 		
 		public OcToDoDataContext() : 
@@ -76,19 +79,19 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
-		public System.Data.Linq.Table<Team_content> Team_content
-		{
-			get
-			{
-				return this.GetTable<Team_content>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Team> Team
 		{
 			get
 			{
 				return this.GetTable<Team>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Team_content> Team_content
+		{
+			get
+			{
+				return this.GetTable<Team_content>();
 			}
 		}
 	}
@@ -375,51 +378,6 @@ namespace OcToDo.Data.DataBase
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team_content")]
-	public partial class Team_content
-	{
-		
-		private int _Team_ID;
-		
-		private int _People_ID;
-		
-		public Team_content()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Team_ID", DbType="Int NOT NULL")]
-		public int Team_ID
-		{
-			get
-			{
-				return this._Team_ID;
-			}
-			set
-			{
-				if ((this._Team_ID != value))
-				{
-					this._Team_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_People_ID", DbType="Int NOT NULL")]
-		public int People_ID
-		{
-			get
-			{
-				return this._People_ID;
-			}
-			set
-			{
-				if ((this._People_ID != value))
-				{
-					this._People_ID = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team")]
 	public partial class Team : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -431,6 +389,8 @@ namespace OcToDo.Data.DataBase
 		private string _TeamName;
 		
 		private int _TeamLeader_ID;
+		
+		private EntitySet<Team_content> _Team_content;
 		
 		private EntityRef<People> _People;
 		
@@ -448,6 +408,7 @@ namespace OcToDo.Data.DataBase
 		
 		public Team()
 		{
+			this._Team_content = new EntitySet<Team_content>(new Action<Team_content>(this.attach_Team_content), new Action<Team_content>(this.detach_Team_content));
 			this._People = default(EntityRef<People>);
 			OnCreated();
 		}
@@ -516,6 +477,19 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_Team_content", Storage="_Team_content", ThisKey="Team_ID", OtherKey="Team_ID")]
+		public EntitySet<Team_content> Team_content
+		{
+			get
+			{
+				return this._Team_content;
+			}
+			set
+			{
+				this._Team_content.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Team", Storage="_People", ThisKey="TeamLeader_ID", OtherKey="People_ID", IsForeignKey=true)]
 		public People People
 		{
@@ -546,6 +520,169 @@ namespace OcToDo.Data.DataBase
 						this._TeamLeader_ID = default(int);
 					}
 					this.SendPropertyChanged("People");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Team_content(Team_content entity)
+		{
+			this.SendPropertyChanging();
+			entity.Team = this;
+		}
+		
+		private void detach_Team_content(Team_content entity)
+		{
+			this.SendPropertyChanging();
+			entity.Team = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team_content")]
+	public partial class Team_content : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TeamContent_ID;
+		
+		private int _Team_ID;
+		
+		private int _People_ID;
+		
+		private EntityRef<Team> _Team;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTeamContent_IDChanging(int value);
+    partial void OnTeamContent_IDChanged();
+    partial void OnTeam_IDChanging(int value);
+    partial void OnTeam_IDChanged();
+    partial void OnPeople_IDChanging(int value);
+    partial void OnPeople_IDChanged();
+    #endregion
+		
+		public Team_content()
+		{
+			this._Team = default(EntityRef<Team>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamContent_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int TeamContent_ID
+		{
+			get
+			{
+				return this._TeamContent_ID;
+			}
+			set
+			{
+				if ((this._TeamContent_ID != value))
+				{
+					this.OnTeamContent_IDChanging(value);
+					this.SendPropertyChanging();
+					this._TeamContent_ID = value;
+					this.SendPropertyChanged("TeamContent_ID");
+					this.OnTeamContent_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Team_ID", DbType="Int NOT NULL")]
+		public int Team_ID
+		{
+			get
+			{
+				return this._Team_ID;
+			}
+			set
+			{
+				if ((this._Team_ID != value))
+				{
+					if (this._Team.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTeam_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Team_ID = value;
+					this.SendPropertyChanged("Team_ID");
+					this.OnTeam_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_People_ID", DbType="Int NOT NULL")]
+		public int People_ID
+		{
+			get
+			{
+				return this._People_ID;
+			}
+			set
+			{
+				if ((this._People_ID != value))
+				{
+					this.OnPeople_IDChanging(value);
+					this.SendPropertyChanging();
+					this._People_ID = value;
+					this.SendPropertyChanged("People_ID");
+					this.OnPeople_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_Team_content", Storage="_Team", ThisKey="Team_ID", OtherKey="Team_ID", IsForeignKey=true)]
+		public Team Team
+		{
+			get
+			{
+				return this._Team.Entity;
+			}
+			set
+			{
+				Team previousValue = this._Team.Entity;
+				if (((previousValue != value) 
+							|| (this._Team.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Team.Entity = null;
+						previousValue.Team_content.Remove(this);
+					}
+					this._Team.Entity = value;
+					if ((value != null))
+					{
+						value.Team_content.Add(this);
+						this._Team_ID = value.Team_ID;
+					}
+					else
+					{
+						this._Team_ID = default(int);
+					}
+					this.SendPropertyChanged("Team");
 				}
 			}
 		}

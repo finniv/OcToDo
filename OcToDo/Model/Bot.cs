@@ -23,10 +23,12 @@ namespace OcToDo.Model
                 new StartCommand(),
                 new RegisterCommand(),
                 new AuthorizeCommand(),
-                new CreateTeamCommand()
+                new CreateTeamCommand(),
+                new AddToTeamCommand()
                 //DONE Добавить регистрацию
-                //TODO Добавить авторизацию
-                //TODO Добавить создание групп
+                //DONE Добавить авторизацию
+                //DONE Добавить создание групп
+                //TODO Добавить обработку авторизации
                 //TODO Добавить создание тасков
             };
 

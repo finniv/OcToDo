@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using OcToDo.Model;
@@ -37,6 +38,11 @@ namespace OcToDo.Controller
                         elementAtOrDefault?.Execute(messeage, client);
                     }
                 }
+            }
+
+            if (messeage.Type == MessageType.TextMessage)
+            {
+                Console.WriteLine("Новое сообщение от {0}: {1}",messeage.From.FirstName,messeage.Text);
             }
         }
     }

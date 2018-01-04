@@ -6,6 +6,7 @@ namespace OcToDo.Model.Commands
     class StartCommand : Command
     {
         protected override string Name => "/start";
+        protected override TelegramBotClient Client { get; set; }
 
         public override async void Execute(Message message, TelegramBotClient client)
         {
@@ -13,9 +14,9 @@ namespace OcToDo.Model.Commands
             var messageId = message.MessageId;
 
             await client.SendTextMessageAsync(chatId,
-                "Добро пожаловать в OcToDo, предлагаю вам авторизоваться или зарегистрироваться для этого введите /register или /login",
+                "Добро пожаловать в OcToDo, предлагаю вам авторизоваться или зарегистрироваться для этого введите /register",
                 replyToMessageId: messageId);
         }
-        //TODO:Добавить обработку регистрации.
+        //DONE :Добавить обработку регистрации.
     }
 }
