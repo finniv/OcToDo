@@ -19,7 +19,7 @@ namespace OcToDo.Model.Commands
             await Register(message, client, peopleEntity, username, userId);
         }
 
-        private static async Task Register(Message message, TelegramBotClient client, PeopleEntity peopleEntity, string username, int userId)
+        private static async System.Threading.Tasks.Task Register(Message message, TelegramBotClient client, PeopleEntity peopleEntity, string username, int userId)
         {
             var statusCode = peopleEntity.Register(username, userId);
             switch (statusCode)

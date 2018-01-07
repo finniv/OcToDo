@@ -30,15 +30,21 @@ namespace OcToDo.Data.DataBase
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertPeople(People instance);
-    partial void UpdatePeople(People instance);
-    partial void DeletePeople(People instance);
-    partial void InsertTeam(Team instance);
-    partial void UpdateTeam(Team instance);
-    partial void DeleteTeam(Team instance);
+    partial void InsertActivities(Activities instance);
+    partial void UpdateActivities(Activities instance);
+    partial void DeleteActivities(Activities instance);
     partial void InsertTeam_content(Team_content instance);
     partial void UpdateTeam_content(Team_content instance);
     partial void DeleteTeam_content(Team_content instance);
+    partial void InsertPeople(People instance);
+    partial void UpdatePeople(People instance);
+    partial void DeletePeople(People instance);
+    partial void InsertTask(Task instance);
+    partial void UpdateTask(Task instance);
+    partial void DeleteTask(Task instance);
+    partial void InsertTeam(Team instance);
+    partial void UpdateTeam(Team instance);
+    partial void DeleteTeam(Team instance);
     #endregion
 		
 		public OcToDoDataContext() : 
@@ -71,11 +77,35 @@ namespace OcToDo.Data.DataBase
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<Activities> Activities
+		{
+			get
+			{
+				return this.GetTable<Activities>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Team_content> Team_content
+		{
+			get
+			{
+				return this.GetTable<Team_content>();
+			}
+		}
+		
 		public System.Data.Linq.Table<People> People
 		{
 			get
 			{
 				return this.GetTable<People>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Task> Task
+		{
+			get
+			{
+				return this.GetTable<Task>();
 			}
 		}
 		
@@ -86,13 +116,428 @@ namespace OcToDo.Data.DataBase
 				return this.GetTable<Team>();
 			}
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Activities")]
+	public partial class Activities : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		public System.Data.Linq.Table<Team_content> Team_content
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Activities_ID;
+		
+		private string _ActivitiesName;
+		
+		private string _ActivitiesDescription;
+		
+		private int _Team_ID;
+		
+		private EntitySet<Task> _Task;
+		
+		private EntityRef<Team> _Team;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnActivities_IDChanging(int value);
+    partial void OnActivities_IDChanged();
+    partial void OnActivitiesNameChanging(string value);
+    partial void OnActivitiesNameChanged();
+    partial void OnActivitiesDescriptionChanging(string value);
+    partial void OnActivitiesDescriptionChanged();
+    partial void OnTeam_IDChanging(int value);
+    partial void OnTeam_IDChanged();
+    #endregion
+		
+		public Activities()
+		{
+			this._Task = new EntitySet<Task>(new Action<Task>(this.attach_Task), new Action<Task>(this.detach_Task));
+			this._Team = default(EntityRef<Team>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Activities_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Activities_ID
 		{
 			get
 			{
-				return this.GetTable<Team_content>();
+				return this._Activities_ID;
 			}
+			set
+			{
+				if ((this._Activities_ID != value))
+				{
+					this.OnActivities_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Activities_ID = value;
+					this.SendPropertyChanged("Activities_ID");
+					this.OnActivities_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ActivitiesName", DbType="NVarChar(30)")]
+		public string ActivitiesName
+		{
+			get
+			{
+				return this._ActivitiesName;
+			}
+			set
+			{
+				if ((this._ActivitiesName != value))
+				{
+					this.OnActivitiesNameChanging(value);
+					this.SendPropertyChanging();
+					this._ActivitiesName = value;
+					this.SendPropertyChanged("ActivitiesName");
+					this.OnActivitiesNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ActivitiesDescription", DbType="NVarChar(MAX)")]
+		public string ActivitiesDescription
+		{
+			get
+			{
+				return this._ActivitiesDescription;
+			}
+			set
+			{
+				if ((this._ActivitiesDescription != value))
+				{
+					this.OnActivitiesDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._ActivitiesDescription = value;
+					this.SendPropertyChanged("ActivitiesDescription");
+					this.OnActivitiesDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Team_ID", DbType="Int NOT NULL")]
+		public int Team_ID
+		{
+			get
+			{
+				return this._Team_ID;
+			}
+			set
+			{
+				if ((this._Team_ID != value))
+				{
+					if (this._Team.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTeam_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Team_ID = value;
+					this.SendPropertyChanged("Team_ID");
+					this.OnTeam_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Activities_Task", Storage="_Task", ThisKey="Activities_ID", OtherKey="Activities_ID")]
+		public EntitySet<Task> Task
+		{
+			get
+			{
+				return this._Task;
+			}
+			set
+			{
+				this._Task.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_Activities", Storage="_Team", ThisKey="Team_ID", OtherKey="Team_ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Team Team
+		{
+			get
+			{
+				return this._Team.Entity;
+			}
+			set
+			{
+				Team previousValue = this._Team.Entity;
+				if (((previousValue != value) 
+							|| (this._Team.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Team.Entity = null;
+						previousValue.Activities.Remove(this);
+					}
+					this._Team.Entity = value;
+					if ((value != null))
+					{
+						value.Activities.Add(this);
+						this._Team_ID = value.Team_ID;
+					}
+					else
+					{
+						this._Team_ID = default(int);
+					}
+					this.SendPropertyChanged("Team");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Task(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Activities = this;
+		}
+		
+		private void detach_Task(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Activities = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team_content")]
+	public partial class Team_content : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TeamContetn_ID;
+		
+		private int _People_ID;
+		
+		private int _Team_ID;
+		
+		private EntitySet<Task> _Task;
+		
+		private EntityRef<People> _People;
+		
+		private EntityRef<Team> _Team;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTeamContetn_IDChanging(int value);
+    partial void OnTeamContetn_IDChanged();
+    partial void OnPeople_IDChanging(int value);
+    partial void OnPeople_IDChanged();
+    partial void OnTeam_IDChanging(int value);
+    partial void OnTeam_IDChanged();
+    #endregion
+		
+		public Team_content()
+		{
+			this._Task = new EntitySet<Task>(new Action<Task>(this.attach_Task), new Action<Task>(this.detach_Task));
+			this._People = default(EntityRef<People>);
+			this._Team = default(EntityRef<Team>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamContetn_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int TeamContetn_ID
+		{
+			get
+			{
+				return this._TeamContetn_ID;
+			}
+			set
+			{
+				if ((this._TeamContetn_ID != value))
+				{
+					this.OnTeamContetn_IDChanging(value);
+					this.SendPropertyChanging();
+					this._TeamContetn_ID = value;
+					this.SendPropertyChanged("TeamContetn_ID");
+					this.OnTeamContetn_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_People_ID", DbType="Int NOT NULL")]
+		public int People_ID
+		{
+			get
+			{
+				return this._People_ID;
+			}
+			set
+			{
+				if ((this._People_ID != value))
+				{
+					if (this._People.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPeople_IDChanging(value);
+					this.SendPropertyChanging();
+					this._People_ID = value;
+					this.SendPropertyChanged("People_ID");
+					this.OnPeople_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Team_ID", DbType="Int NOT NULL")]
+		public int Team_ID
+		{
+			get
+			{
+				return this._Team_ID;
+			}
+			set
+			{
+				if ((this._Team_ID != value))
+				{
+					if (this._Team.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTeam_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Team_ID = value;
+					this.SendPropertyChanged("Team_ID");
+					this.OnTeam_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_content_Task", Storage="_Task", ThisKey="TeamContetn_ID", OtherKey="TeamContent_ID")]
+		public EntitySet<Task> Task
+		{
+			get
+			{
+				return this._Task;
+			}
+			set
+			{
+				this._Task.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Team_content", Storage="_People", ThisKey="People_ID", OtherKey="People_ID", IsForeignKey=true)]
+		public People People
+		{
+			get
+			{
+				return this._People.Entity;
+			}
+			set
+			{
+				People previousValue = this._People.Entity;
+				if (((previousValue != value) 
+							|| (this._People.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._People.Entity = null;
+						previousValue.Team_content.Remove(this);
+					}
+					this._People.Entity = value;
+					if ((value != null))
+					{
+						value.Team_content.Add(this);
+						this._People_ID = value.People_ID;
+					}
+					else
+					{
+						this._People_ID = default(int);
+					}
+					this.SendPropertyChanged("People");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_Team_content", Storage="_Team", ThisKey="Team_ID", OtherKey="Team_ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public Team Team
+		{
+			get
+			{
+				return this._Team.Entity;
+			}
+			set
+			{
+				Team previousValue = this._Team.Entity;
+				if (((previousValue != value) 
+							|| (this._Team.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Team.Entity = null;
+						previousValue.Team_content.Remove(this);
+					}
+					this._Team.Entity = value;
+					if ((value != null))
+					{
+						value.Team_content.Add(this);
+						this._Team_ID = value.Team_ID;
+					}
+					else
+					{
+						this._Team_ID = default(int);
+					}
+					this.SendPropertyChanged("Team");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Task(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Team_content = this;
+		}
+		
+		private void detach_Task(Task entity)
+		{
+			this.SendPropertyChanging();
+			entity.Team_content = null;
 		}
 	}
 	
@@ -119,6 +564,8 @@ namespace OcToDo.Data.DataBase
 		private string _UserName;
 		
 		private System.Nullable<int> _Telegram_ID;
+		
+		private EntitySet<Team_content> _Team_content;
 		
 		private EntitySet<Team> _Team;
 		
@@ -148,6 +595,7 @@ namespace OcToDo.Data.DataBase
 		
 		public People()
 		{
+			this._Team_content = new EntitySet<Team_content>(new Action<Team_content>(this.attach_Team_content), new Action<Team_content>(this.detach_Team_content));
 			this._Team = new EntitySet<Team>(new Action<Team>(this.attach_Team), new Action<Team>(this.detach_Team));
 			OnCreated();
 		}
@@ -332,6 +780,19 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Team_content", Storage="_Team_content", ThisKey="People_ID", OtherKey="People_ID")]
+		public EntitySet<Team_content> Team_content
+		{
+			get
+			{
+				return this._Team_content;
+			}
+			set
+			{
+				this._Team_content.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Team", Storage="_Team", ThisKey="People_ID", OtherKey="TeamLeader_ID")]
 		public EntitySet<Team> Team
 		{
@@ -365,6 +826,18 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
+		private void attach_Team_content(Team_content entity)
+		{
+			this.SendPropertyChanging();
+			entity.People = this;
+		}
+		
+		private void detach_Team_content(Team_content entity)
+		{
+			this.SendPropertyChanging();
+			entity.People = null;
+		}
+		
 		private void attach_Team(Team entity)
 		{
 			this.SendPropertyChanging();
@@ -375,6 +848,270 @@ namespace OcToDo.Data.DataBase
 		{
 			this.SendPropertyChanging();
 			entity.People = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Task")]
+	public partial class Task : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Task_ID;
+		
+		private string _TaskName;
+		
+		private string _TaskDescription;
+		
+		private short _TaskStatus;
+		
+		private int _Activities_ID;
+		
+		private int _TeamContent_ID;
+		
+		private EntityRef<Activities> _Activities;
+		
+		private EntityRef<Team_content> _Team_content;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTask_IDChanging(int value);
+    partial void OnTask_IDChanged();
+    partial void OnTaskNameChanging(string value);
+    partial void OnTaskNameChanged();
+    partial void OnTaskDescriptionChanging(string value);
+    partial void OnTaskDescriptionChanged();
+    partial void OnTaskStatusChanging(short value);
+    partial void OnTaskStatusChanged();
+    partial void OnActivities_IDChanging(int value);
+    partial void OnActivities_IDChanged();
+    partial void OnTeamContent_IDChanging(int value);
+    partial void OnTeamContent_IDChanged();
+    #endregion
+		
+		public Task()
+		{
+			this._Activities = default(EntityRef<Activities>);
+			this._Team_content = default(EntityRef<Team_content>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Task_ID
+		{
+			get
+			{
+				return this._Task_ID;
+			}
+			set
+			{
+				if ((this._Task_ID != value))
+				{
+					this.OnTask_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Task_ID = value;
+					this.SendPropertyChanged("Task_ID");
+					this.OnTask_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskName", DbType="NVarChar(30) NOT NULL", CanBeNull=false)]
+		public string TaskName
+		{
+			get
+			{
+				return this._TaskName;
+			}
+			set
+			{
+				if ((this._TaskName != value))
+				{
+					this.OnTaskNameChanging(value);
+					this.SendPropertyChanging();
+					this._TaskName = value;
+					this.SendPropertyChanged("TaskName");
+					this.OnTaskNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskDescription", DbType="NVarChar(MAX)")]
+		public string TaskDescription
+		{
+			get
+			{
+				return this._TaskDescription;
+			}
+			set
+			{
+				if ((this._TaskDescription != value))
+				{
+					this.OnTaskDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._TaskDescription = value;
+					this.SendPropertyChanged("TaskDescription");
+					this.OnTaskDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskStatus", DbType="SmallInt NOT NULL")]
+		public short TaskStatus
+		{
+			get
+			{
+				return this._TaskStatus;
+			}
+			set
+			{
+				if ((this._TaskStatus != value))
+				{
+					this.OnTaskStatusChanging(value);
+					this.SendPropertyChanging();
+					this._TaskStatus = value;
+					this.SendPropertyChanged("TaskStatus");
+					this.OnTaskStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Activities_ID", DbType="Int NOT NULL")]
+		public int Activities_ID
+		{
+			get
+			{
+				return this._Activities_ID;
+			}
+			set
+			{
+				if ((this._Activities_ID != value))
+				{
+					if (this._Activities.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnActivities_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Activities_ID = value;
+					this.SendPropertyChanged("Activities_ID");
+					this.OnActivities_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamContent_ID", DbType="Int NOT NULL")]
+		public int TeamContent_ID
+		{
+			get
+			{
+				return this._TeamContent_ID;
+			}
+			set
+			{
+				if ((this._TeamContent_ID != value))
+				{
+					if (this._Team_content.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTeamContent_IDChanging(value);
+					this.SendPropertyChanging();
+					this._TeamContent_ID = value;
+					this.SendPropertyChanged("TeamContent_ID");
+					this.OnTeamContent_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Activities_Task", Storage="_Activities", ThisKey="Activities_ID", OtherKey="Activities_ID", IsForeignKey=true)]
+		public Activities Activities
+		{
+			get
+			{
+				return this._Activities.Entity;
+			}
+			set
+			{
+				Activities previousValue = this._Activities.Entity;
+				if (((previousValue != value) 
+							|| (this._Activities.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Activities.Entity = null;
+						previousValue.Task.Remove(this);
+					}
+					this._Activities.Entity = value;
+					if ((value != null))
+					{
+						value.Task.Add(this);
+						this._Activities_ID = value.Activities_ID;
+					}
+					else
+					{
+						this._Activities_ID = default(int);
+					}
+					this.SendPropertyChanged("Activities");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_content_Task", Storage="_Team_content", ThisKey="TeamContent_ID", OtherKey="TeamContetn_ID", IsForeignKey=true)]
+		public Team_content Team_content
+		{
+			get
+			{
+				return this._Team_content.Entity;
+			}
+			set
+			{
+				Team_content previousValue = this._Team_content.Entity;
+				if (((previousValue != value) 
+							|| (this._Team_content.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Team_content.Entity = null;
+						previousValue.Task.Remove(this);
+					}
+					this._Team_content.Entity = value;
+					if ((value != null))
+					{
+						value.Task.Add(this);
+						this._TeamContent_ID = value.TeamContetn_ID;
+					}
+					else
+					{
+						this._TeamContent_ID = default(int);
+					}
+					this.SendPropertyChanged("Team_content");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -389,6 +1126,8 @@ namespace OcToDo.Data.DataBase
 		private string _TeamName;
 		
 		private int _TeamLeader_ID;
+		
+		private EntitySet<Activities> _Activities;
 		
 		private EntitySet<Team_content> _Team_content;
 		
@@ -408,6 +1147,7 @@ namespace OcToDo.Data.DataBase
 		
 		public Team()
 		{
+			this._Activities = new EntitySet<Activities>(new Action<Activities>(this.attach_Activities), new Action<Activities>(this.detach_Activities));
 			this._Team_content = new EntitySet<Team_content>(new Action<Team_content>(this.attach_Team_content), new Action<Team_content>(this.detach_Team_content));
 			this._People = default(EntityRef<People>);
 			OnCreated();
@@ -477,6 +1217,19 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_Activities", Storage="_Activities", ThisKey="Team_ID", OtherKey="Team_ID")]
+		public EntitySet<Activities> Activities
+		{
+			get
+			{
+				return this._Activities;
+			}
+			set
+			{
+				this._Activities.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_Team_content", Storage="_Team_content", ThisKey="Team_ID", OtherKey="Team_ID")]
 		public EntitySet<Team_content> Team_content
 		{
@@ -490,7 +1243,7 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Team", Storage="_People", ThisKey="TeamLeader_ID", OtherKey="People_ID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="People_Team", Storage="_People", ThisKey="TeamLeader_ID", OtherKey="People_ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public People People
 		{
 			get
@@ -544,6 +1297,18 @@ namespace OcToDo.Data.DataBase
 			}
 		}
 		
+		private void attach_Activities(Activities entity)
+		{
+			this.SendPropertyChanging();
+			entity.Team = this;
+		}
+		
+		private void detach_Activities(Activities entity)
+		{
+			this.SendPropertyChanging();
+			entity.Team = null;
+		}
+		
 		private void attach_Team_content(Team_content entity)
 		{
 			this.SendPropertyChanging();
@@ -554,157 +1319,6 @@ namespace OcToDo.Data.DataBase
 		{
 			this.SendPropertyChanging();
 			entity.Team = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team_content")]
-	public partial class Team_content : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _TeamContent_ID;
-		
-		private int _Team_ID;
-		
-		private int _People_ID;
-		
-		private EntityRef<Team> _Team;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnTeamContent_IDChanging(int value);
-    partial void OnTeamContent_IDChanged();
-    partial void OnTeam_IDChanging(int value);
-    partial void OnTeam_IDChanged();
-    partial void OnPeople_IDChanging(int value);
-    partial void OnPeople_IDChanged();
-    #endregion
-		
-		public Team_content()
-		{
-			this._Team = default(EntityRef<Team>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamContent_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int TeamContent_ID
-		{
-			get
-			{
-				return this._TeamContent_ID;
-			}
-			set
-			{
-				if ((this._TeamContent_ID != value))
-				{
-					this.OnTeamContent_IDChanging(value);
-					this.SendPropertyChanging();
-					this._TeamContent_ID = value;
-					this.SendPropertyChanged("TeamContent_ID");
-					this.OnTeamContent_IDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Team_ID", DbType="Int NOT NULL")]
-		public int Team_ID
-		{
-			get
-			{
-				return this._Team_ID;
-			}
-			set
-			{
-				if ((this._Team_ID != value))
-				{
-					if (this._Team.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTeam_IDChanging(value);
-					this.SendPropertyChanging();
-					this._Team_ID = value;
-					this.SendPropertyChanged("Team_ID");
-					this.OnTeam_IDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_People_ID", DbType="Int NOT NULL")]
-		public int People_ID
-		{
-			get
-			{
-				return this._People_ID;
-			}
-			set
-			{
-				if ((this._People_ID != value))
-				{
-					this.OnPeople_IDChanging(value);
-					this.SendPropertyChanging();
-					this._People_ID = value;
-					this.SendPropertyChanged("People_ID");
-					this.OnPeople_IDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_Team_content", Storage="_Team", ThisKey="Team_ID", OtherKey="Team_ID", IsForeignKey=true)]
-		public Team Team
-		{
-			get
-			{
-				return this._Team.Entity;
-			}
-			set
-			{
-				Team previousValue = this._Team.Entity;
-				if (((previousValue != value) 
-							|| (this._Team.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Team.Entity = null;
-						previousValue.Team_content.Remove(this);
-					}
-					this._Team.Entity = value;
-					if ((value != null))
-					{
-						value.Team_content.Add(this);
-						this._Team_ID = value.Team_ID;
-					}
-					else
-					{
-						this._Team_ID = default(int);
-					}
-					this.SendPropertyChanged("Team");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 }

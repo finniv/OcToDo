@@ -78,6 +78,8 @@
       <DependentUpon>OcToDo.dbml</DependentUpon>
     </Compile>
     <Compile Include="Data\DataBase\PeopleEntity.cs" />
+    <Compile Include="Data\DataBase\ActivitiesEntity.cs" />
+    <Compile Include="Data\DataBase\TaskEntity.cs" />
     <Compile Include="Data\DataBase\TeamEntity.cs" />
     <Compile Include="Model\Bot.cs" />
     <Compile Include="Model\BotCore.cs" />
