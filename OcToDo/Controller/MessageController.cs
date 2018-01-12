@@ -42,7 +42,7 @@ namespace OcToDo.Controller
 
             if (messeage.Type == MessageType.TextMessage)
             {
-                Console.WriteLine("Новое сообщение от {0}: {1}",messeage.From.FirstName,messeage.Text);
+                Console.WriteLine("Новое сообщение от {0}(ID :{1}): {2}",messeage.From.FirstName,messeage.From.Id,messeage.Text);
             }
         }
     }

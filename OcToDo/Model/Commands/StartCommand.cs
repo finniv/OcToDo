@@ -14,7 +14,7 @@ namespace OcToDo.Model.Commands
             var messageId = message.MessageId;
 
             await client.SendTextMessageAsync(chatId,
-                "Добро пожаловать в OcToDo, предлагаю вам авторизоваться или зарегистрироваться для этого введите /register",
+                "Добро пожаловать в OcToDo, предлагаю вам авторизоваться или зарегистрироваться для этого введите /register или /authorize",
                 replyToMessageId: messageId);
         }
         //DONE :Добавить обработку регистрации.

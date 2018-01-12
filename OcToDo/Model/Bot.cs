@@ -24,7 +24,11 @@ namespace OcToDo.Model
                 new RegisterCommand(),
                 new AuthorizeCommand(),
                 new CreateTeamCommand(),
-                new AddToTeamCommand()
+                new AddToTeamCommand(),
+                new AddActivitiesCommand(),
+                new AddTaskCommand(),
+                new ShowAllTaskCommand(),
+                new UpdateTaskStatusCommand()
                 //DONE Добавить регистрацию
                 //DONE Добавить авторизацию
                 //DONE Добавить создание групп

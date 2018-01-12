@@ -9,11 +9,10 @@ using Telegram.Bot.Types;
 
 namespace OcToDo.Model.Commands
 {
-    class TaskCommand : Command
+    class ShowAllTaskCommand:Command
     {
-        protected override string Name => "/addTask";
+        protected override string Name => "/showalltask";
         protected override TelegramBotClient Client { get; set; }
-
         public override async void Execute(Message message, TelegramBotClient client)
         {
             Client = client;
@@ -22,14 +21,16 @@ namespace OcToDo.Model.Commands
             var plEntity = new PeopleEntity().FindPeopleId(message.From.Username);
             if (plEntity == null)
             {
-                await Client.SendTextMessageAsync(chatId,
+                await client.SendTextMessageAsync(chatId,
                     "Пройдите регистрацию",
                     replyToMessageId: messageId);
+                return;
             }
             else
             {
-                await Client.SendTextMessageAsync(chatId,
-                    "",
+                var tasklist = new TaskEntity().ShowTask(message.From.Username);
+                await client.SendTextMessageAsync(chatId,
+                    tasklist,
                     replyToMessageId: messageId);
             }
         }

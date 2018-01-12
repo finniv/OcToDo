@@ -7,11 +7,11 @@ using Telegram.Bot.Types.Enums;
 
 namespace OcToDo.Model.Commands
 {
-    class ActivitiesCommand:Command
+    class AddActivitiesCommand:Command
     {
         private int Index;
 
-        protected override string Name => "/addActivities";
+        protected override string Name => "/addactivities";
         protected override TelegramBotClient Client { get; set; }
         public override async void Execute(Message message, TelegramBotClient client)
         {

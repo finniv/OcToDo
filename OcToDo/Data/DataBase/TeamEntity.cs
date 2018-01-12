@@ -105,5 +105,26 @@ namespace OcToDo.Data.DataBase
                 select team).ToArray();
             return teamId[index-1].Team_ID;
         }
+
+        public int? GetTeamContentId(int teamId, string username)
+        {
+            var peopleId = (from p in DbContext.People
+                where p.UserName == username
+                select p).Single();
+            if (peopleId==null)
+            {
+                return null;
+            }
+
+            var teamContentId = (from tc in DbContext.Team_content
+                where tc.Team_ID == teamId && tc.People_ID == peopleId.People_ID
+                select tc).Single();
+            if (teamContentId==null)
+            {
+                return null;
+            }
+
+            return teamContentId.TeamContetn_ID;
+        }
     }
 }

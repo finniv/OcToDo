@@ -83,14 +83,16 @@
     <Compile Include="Data\DataBase\TeamEntity.cs" />
     <Compile Include="Model\Bot.cs" />
     <Compile Include="Model\BotCore.cs" />
-    <Compile Include="Model\Commands\ActivitiesCommand.cs" />
+    <Compile Include="Model\Commands\AddActivitiesCommand.cs" />
     <Compile Include="Model\Commands\AddToTeamCommand.cs" />
     <Compile Include="Model\Commands\AuthorizeCommand.cs" />
     <Compile Include="Model\Commands\Command.cs" />
     <Compile Include="Model\Commands\CreateTeamCommand.cs" />
+    <Compile Include="Model\Commands\ShowAllTaskCommand.cs" />
     <Compile Include="Model\Commands\StartCommand.cs" />
     <Compile Include="Model\Commands\RegisterCommand.cs" />
-    <Compile Include="Model\Commands\TaskCommand.cs" />
+    <Compile Include="Model\Commands\AddTaskCommand.cs" />
+    <Compile Include="Model\Commands\UpdateTaskStatusCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -103,7 +105,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ClassDiagram2.cd" />
     <None Include="Data\DataBase\OcToDo.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>OcToDo.designer.cs</LastGenOutput>

@@ -58,5 +58,18 @@ namespace OcToDo.Data.DataBase
             Debug.WriteLine(activitiesList);
             return activitiesList;
         }
+
+        public int? FindActivitiesIdByIndex(int index, int teamId)
+        {
+            var activities = (from acs in DbContext.Activities
+                where acs.Team_ID == teamId
+                select acs).ToArray();
+            if (activities == null)
+            {
+                return null;
+            }
+
+            return activities[index - 1].Activities_ID;
+        }
     }
 }
