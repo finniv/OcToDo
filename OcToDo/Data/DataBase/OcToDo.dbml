@@ -57,4 +57,16 @@
       <Association Name="People_Team" Member="People" ThisKey="TeamLeader_ID" OtherKey="People_ID" Type="People" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.AllTask" Member="AllTask">
+    <Type Name="AllTask">
+      <Column Name="People_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="FName" Type="System.String" DbType="NVarChar(18)" CanBeNull="true" />
+      <Column Name="TeamName" Type="System.String" DbType="NVarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="TaskName" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="TaskStatus" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Team_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Task_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

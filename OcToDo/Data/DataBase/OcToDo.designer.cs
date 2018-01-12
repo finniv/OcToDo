@@ -116,6 +116,14 @@ namespace OcToDo.Data.DataBase
 				return this.GetTable<Team>();
 			}
 		}
+		
+		public System.Data.Linq.Table<AllTask> AllTask
+		{
+			get
+			{
+				return this.GetTable<AllTask>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Activities")]
@@ -1319,6 +1327,159 @@ namespace OcToDo.Data.DataBase
 		{
 			this.SendPropertyChanging();
 			entity.Team = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AllTask")]
+	public partial class AllTask
+	{
+		
+		private int _People_ID;
+		
+		private string _UserName;
+		
+		private string _FName;
+		
+		private string _TeamName;
+		
+		private string _TaskName;
+		
+		private short _TaskStatus;
+		
+		private int _Team_ID;
+		
+		private int _Task_ID;
+		
+		public AllTask()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_People_ID", DbType="Int NOT NULL")]
+		public int People_ID
+		{
+			get
+			{
+				return this._People_ID;
+			}
+			set
+			{
+				if ((this._People_ID != value))
+				{
+					this._People_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(64)")]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FName", DbType="NVarChar(18)")]
+		public string FName
+		{
+			get
+			{
+				return this._FName;
+			}
+			set
+			{
+				if ((this._FName != value))
+				{
+					this._FName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamName", DbType="NVarChar(60) NOT NULL", CanBeNull=false)]
+		public string TeamName
+		{
+			get
+			{
+				return this._TeamName;
+			}
+			set
+			{
+				if ((this._TeamName != value))
+				{
+					this._TeamName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskName", DbType="NVarChar(30) NOT NULL", CanBeNull=false)]
+		public string TaskName
+		{
+			get
+			{
+				return this._TaskName;
+			}
+			set
+			{
+				if ((this._TaskName != value))
+				{
+					this._TaskName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskStatus", DbType="SmallInt NOT NULL")]
+		public short TaskStatus
+		{
+			get
+			{
+				return this._TaskStatus;
+			}
+			set
+			{
+				if ((this._TaskStatus != value))
+				{
+					this._TaskStatus = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Team_ID", DbType="Int NOT NULL")]
+		public int Team_ID
+		{
+			get
+			{
+				return this._Team_ID;
+			}
+			set
+			{
+				if ((this._Team_ID != value))
+				{
+					this._Team_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_ID", DbType="Int NOT NULL")]
+		public int Task_ID
+		{
+			get
+			{
+				return this._Task_ID;
+			}
+			set
+			{
+				if ((this._Task_ID != value))
+				{
+					this._Task_ID = value;
+				}
+			}
 		}
 	}
 }
