@@ -11,7 +11,7 @@ namespace OcToDo.Model.Commands
     {
         private int Index { get; set; }
         private int ActivitiesId { get; set; }
-        private int TeamId { get; set; }
+        private int? TeamId { get; set; }
         private int TeamContent { get; set; }
         protected override string Name => "/addTask";
         protected override TelegramBotClient Client { get; set; }
@@ -21,12 +21,10 @@ namespace OcToDo.Model.Commands
             Client = client;
             var chatId = message.Chat.Id;
             var messageId = message.MessageId;
-            var plEntity = new PeopleEntity().FindPeopleId(message.From.Username);
+            var plEntity = await UserChecker.CheckPlEntity(message, client, chatId, messageId);
             if (plEntity == null)
             {
-                await Client.SendTextMessageAsync(chatId,
-                    "Пройдите регистрацию",
-                    replyToMessageId: messageId);
+                return;
             }
             else
             {
@@ -40,7 +38,7 @@ namespace OcToDo.Model.Commands
                 client.OnMessage += ChoseTeam;
             }
         }
-        private void ChoseTeam(object sender, Telegram.Bot.Args.MessageEventArgs e)
+        private void ChoseTeam(object sender, MessageEventArgs e)
         {
             if (e.Message.Type == MessageType.TextMessage)
             {
@@ -57,9 +55,9 @@ namespace OcToDo.Model.Commands
                     Client.OnMessage -= ChoseTeam;
                     return;
                 }
+
                 Client.SendTextMessageAsync(e.Message.Chat.Id,
-                    "Список групп задач",
-                    replyToMessageId: e.Message.MessageId);
+                    "Список групп задач");
                 ChoseActivities(e.Message);
             }
             else
@@ -80,14 +78,13 @@ namespace OcToDo.Model.Commands
                 activitiesList,
                 replyToMessageId: message.MessageId);
             await Client.SendTextMessageAsync(message.Chat.Id,
-                "Выберете группу задач",
-                replyToMessageId: message.MessageId);
+                "Выберете группу задач");
             Client.OnMessage += GetActivitiesId;
         }
 
         private void GetActivitiesId(object sender, Telegram.Bot.Args.MessageEventArgs e)
         {
-            var teamIdByIndex = new TeamEntity().FindTeamIdByIndex(Index, e.Message.From.Username);
+             TeamId = new TeamEntity().FindTeamIdByIndex(Index, e.Message.From.Username);
             if (e.Message.Type == MessageType.TextMessage)
             {
                 try
@@ -104,7 +101,7 @@ namespace OcToDo.Model.Commands
                     return;
                 }
 
-                var activitiesByIndex = new ActivitiesEntity().FindActivitiesIdByIndex(Index, (int) teamIdByIndex);
+                var activitiesByIndex = new ActivitiesEntity().FindActivitiesIdByIndex(Index, (int) TeamId);
                 ActivitiesId = (int)activitiesByIndex;
                 Client.SendTextMessageAsync(e.Message.Chat.Id,
                     "Введите username участника команды",
@@ -122,24 +119,38 @@ namespace OcToDo.Model.Commands
             Client.OnMessage -= GetActivitiesId;
         }
 
-        private void GetInfo(object sender, Telegram.Bot.Args.MessageEventArgs e)
+        private void GetInfo(object sender, MessageEventArgs e)
         {
             if (e.Message.Type == MessageType.TextMessage)
             {
-                var teamContent = new TeamEntity().GetTeamContentId(TeamId, e.Message.Text);
-                if (teamContent!=null)
+
+                if (TeamId != null)
                 {
-                    TeamContent =(int) teamContent;
-                    Client.SendTextMessageAsync(e.Message.Chat.Id,
-                        "Введите имя таска",
-                        replyToMessageId: e.Message.MessageId);
-                    Client.OnMessage += AddTask;
+                    var teamContent = new TeamEntity().GetTeamContentId((int)TeamId, e.Message.Text);
+
+                    if (teamContent != null)
+                    {
+                        TeamContent = (int)teamContent;
+                        Client.SendTextMessageAsync(e.Message.Chat.Id,
+                            "Введите имя таска",
+                            replyToMessageId: e.Message.MessageId);
+                        Client.OnMessage += AddTask;
+                        Client.OnMessage -= GetInfo;
+                    }
+                    else
+                    {
+                        Client.SendTextMessageAsync(e.Message.Chat.Id,
+                            "Не верное значение",
+                            replyToMessageId: e.Message.MessageId);
+                        Client.OnMessage -= GetInfo;
+                    }
                 }
                 else
                 {
                     Client.SendTextMessageAsync(e.Message.Chat.Id,
                         "Не верное значение",
                         replyToMessageId: e.Message.MessageId);
+                    Client.OnMessage -= GetInfo;
                 }
             }
             else
@@ -159,6 +170,10 @@ namespace OcToDo.Model.Commands
                     "Этот текст будет установлен как имя таска",
                     replyToMessageId: e.Message.MessageId);
                 var addTask= new TaskEntity().AddTask(e.Message.Text,ActivitiesId,TeamContent);
+                Client.SendTextMessageAsync(e.Message.Chat.Id,
+                    addTask > 0 ? "Таск добавлен" : "Таск не добавлен",
+                    replyToMessageId: e.Message.MessageId);
+                Client.OnMessage -= AddTask;
             }
         }
     }

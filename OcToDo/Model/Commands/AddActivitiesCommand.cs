@@ -18,7 +18,7 @@ namespace OcToDo.Model.Commands
             Client = client;
             var chatId = message.Chat.Id;
             var messageId = message.MessageId;
-            var plEntity = new PeopleEntity().FindPeopleId(message.From.Username);
+            var plEntity = await UserChecker.CheckPlEntity(message, client, chatId, messageId);
             if (plEntity == null)
             {
                 await Client.SendTextMessageAsync(chatId,
@@ -85,6 +85,9 @@ namespace OcToDo.Model.Commands
                     AddActivitiesToTeam(e.Message.Text, teamIdByIndex) > 0 ? "Группа задач добавлена" : "Группа задач не добавлена",
                     replyToMessageId: e.Message.MessageId);
             }
+
+            Client.OnMessage -= SetActivities;
+            Client = null;
         }
 
         private int AddActivitiesToTeam(string activitiesName, int? teamIdByIndex)

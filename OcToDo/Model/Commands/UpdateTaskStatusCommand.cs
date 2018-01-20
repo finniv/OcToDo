@@ -22,12 +22,9 @@ namespace OcToDo.Model.Commands
             Client = client;
             var chatId = message.Chat.Id;
             var messageId = message.MessageId;
-            var plEntity = new PeopleEntity().FindPeopleId(message.From.Username);
+            var plEntity = await UserChecker.CheckPlEntity(message, client, chatId, messageId);
             if (plEntity == null)
             {
-                await Client.SendTextMessageAsync(chatId,
-                    "Пройдите регистрацию",
-                    replyToMessageId: messageId);
                 return;
             }
             else
