@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 
 namespace OcToDo.Data.DataBase
@@ -46,29 +47,52 @@ namespace OcToDo.Data.DataBase
         public sbyte AddToTeam(int teamId,int peopleId)
         {
             sbyte statucCode=0;
-            var teamContains = (from teamContent in DbContext.Team_content
-                where teamContent.People_ID == teamId || teamContent.Team_ID == teamId
-                select teamContent).SingleOrDefault();
-            if (teamContains == null)
+            var conteinsQueryable = (from teamContent in DbContext.Team_content
+                where teamContent.People_ID == peopleId || teamContent.Team_ID == teamId
+                select teamContent);
+            if (conteinsQueryable.Count()>1)
             {
-                DbContext.GetTable<Team_content>()
-                    .InsertOnSubmit(new Team_content() {Team_ID = teamId, People_ID = peopleId});
-                DbContext.SubmitChanges();
-               return statucCode = 1;
+                return 0;
+            }
+            if(conteinsQueryable.Count()<=1)
+            {
+                if (!(conteinsQueryable.FirstOrDefault() is Team_content teamContents))
+                {
+                    DbContext.GetTable<Team_content>()
+                        .InsertOnSubmit(new Team_content() { Team_ID = teamId, People_ID = peopleId });
+                    DbContext.SubmitChanges();
+                    return statucCode = 1;
+                }
+                if ((teamContents.Team_ID == teamId && teamContents.People_ID != peopleId) || (teamContents.Team_ID != teamId && teamContents.People_ID == peopleId))
+                {
+                    DbContext.GetTable<Team_content>()
+                        .InsertOnSubmit(new Team_content() { Team_ID = teamId, People_ID = peopleId });
+                    DbContext.SubmitChanges();
+                    return statucCode = 1;
+                }
+                if (teamContents.People_ID == peopleId && teamContents.Team_ID == teamId)
+                {
+                    return statucCode = 0;
+                }
             }
 
-            if ((teamContains.Team_ID==teamId && teamContains.People_ID!=peopleId) || (teamContains.Team_ID!=teamId && teamContains.People_ID==peopleId))
-            {
-                DbContext.GetTable<Team_content>()
-                    .InsertOnSubmit(new Team_content() { Team_ID = teamId, People_ID = peopleId });
-                DbContext.SubmitChanges();
-                return statucCode = 1;
-            }
-            if(teamContains.People_ID==peopleId&&teamContains.Team_ID==teamId)
-            {
-               return statucCode = 0;
-            }
+            
 
+            return statucCode;
+        }
+
+        public sbyte DeleteTeam(int? teamId)
+        {
+            sbyte statucCode = 0;
+            var team = (from teams in DbContext.Team
+                where teams.Team_ID == teamId 
+                select teams).SingleOrDefault();
+            if (team!=null)
+            {
+                DbContext.Team.DeleteOnSubmit(team);
+                DbContext.SubmitChanges();
+                statucCode = 1;
+            }
             return statucCode;
         }
 

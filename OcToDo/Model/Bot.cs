@@ -28,7 +28,9 @@ namespace OcToDo.Model
                 new AddActivitiesCommand(),
                 new AddTaskCommand(),
                 new ShowAllTaskCommand(),
-                new UpdateTaskStatusCommand()
+                new UpdateTaskStatusCommand(),
+                new DeleteTeamCommand(),
+                new ShowAllTeamTask()
                 //DONE Добавить регистрацию
                 //DONE Добавить авторизацию
                 //DONE Добавить создание групп

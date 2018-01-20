@@ -32,7 +32,7 @@
         <elementListCompartment Id="cc45c6a5-01aa-4fae-9a2b-7096cb4fe1c3" absoluteBounds="3.515, 5.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.75 : 2.94314697265625); (6.25 : 2.94314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 2.72298647949219); (6.25 : 2.72298647949219)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/OcToDoDataContext/People/People_Team_content" />
       <nodes>
         <classShapeMoniker Id="0009f0ff-af98-45bb-ba5d-125f51f53722" />
@@ -60,24 +60,24 @@
         <classShapeMoniker Id="3572ce00-cda0-42db-b471-f9ddfe1aa273" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.5 : 4.625); (4.5 : 3.32097295898437); (6.25 : 3.32097295898437)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5 : 4.625); (4.5 : 3.32097295898437); (6.25 : 3.32097295898437)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/OcToDoDataContext/Team/Team_Team_content" />
       <nodes>
         <classShapeMoniker Id="831fb4da-8d1b-4719-8ae2-6deeaf3e137b" />
         <classShapeMoniker Id="a464abfb-9d18-4851-af59-c992bc505699" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 3.86803774902344); (3.9687475 : 3.86803774902344); (3.9687475 : 4.625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 3.86803774902343); (3.9687475 : 3.86803774902343); (3.9687475 : 4.625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/OcToDoDataContext/People/People_Team" />
       <nodes>
         <classShapeMoniker Id="0009f0ff-af98-45bb-ba5d-125f51f53722" />
         <classShapeMoniker Id="831fb4da-8d1b-4719-8ae2-6deeaf3e137b" />
       </nodes>
     </associationConnector>
-    <classShape Id="caf0cf1d-7435-4f57-ab9a-a209a19c4769" absoluteBounds="0.75, 4.875, 2, 2.3478011067708335">
+    <classShape Id="70576bad-d0a7-4e1a-a608-1ca776fed859" absoluteBounds="0.75, 4.625, 2, 2.7324039713541666">
       <DataClassMoniker Name="/OcToDoDataContext/AllTask" />
       <nestedChildShapes>
-        <elementListCompartment Id="3f440659-cd79-42df-8911-fc8c12cd4bef" absoluteBounds="0.76500000000000012, 5.335, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="dc1e53b9-4600-454e-ad10-fdb71e42a641" absoluteBounds="0.76500000000000012, 5.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

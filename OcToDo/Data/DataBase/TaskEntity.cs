@@ -9,7 +9,7 @@ namespace OcToDo.Data.DataBase
         {
             sbyte statusCode;
             var task = (from ts in DbContext.Task
-                where ts.TeamContent_ID==teamContentId || ts.Activities_ID==activitiesId
+                where ts.TeamContent_ID==teamContentId && ts.Activities_ID==activitiesId
                 select ts).FirstOrDefault();
             if (task == null)
             {
@@ -57,10 +57,56 @@ namespace OcToDo.Data.DataBase
                         statuscode = "\U0000274C";
                         break;
                 }
+
+                if (i==0)
+                {
+                    taskList+= "\n*" + task[i].TeamName+"*";
+                }
+                else if (task[i - 1].Team_ID != task[i].Team_ID)
+                {
+                    taskList += "\n*" + task[i].TeamName+"*";
+                }
                 taskList += "\n" + (i + 1) + "." + task[i].TaskName+" : "+statuscode;
             }
 
             Debug.WriteLine(taskList);
+            return taskList;
+        }
+
+        public string ShowTask(int teamId)
+        {
+            var taskList = "";
+            var task = (from ts in DbContext.AllTask
+                where ts.Team_ID == teamId
+                select ts).OrderBy(s=>s.Activities_ID).ToArray();
+            for (var i = 0; i < task.Length; i++)
+            {
+                var taskStatus = task[i].TaskStatus;
+                var statuscode = "";
+                switch (taskStatus)
+                {
+                    case 0:
+                        statuscode = "\U00002B55";
+                        break;
+                    case 1:
+                        statuscode = "\U00002705";
+                        break;
+                    case -1:
+                        statuscode = "\U0000274C";
+                        break;
+                }
+
+                if (i == 0)
+                {
+                    taskList += "\n*" + task[i].TeamName + "*";
+                    taskList += "\n_*" + task[i].ActivitiesName + "*_";
+                }
+                else if (task[i - 1].Activities_ID != task[i].Activities_ID)
+                {
+                    taskList += "\n_*" + task[i].ActivitiesName + "*_";
+                }
+                taskList += "\n" + (i + 1) + "." + task[i].TaskName + " : " + statuscode + " " + task[i].UserName;
+            }
             return taskList;
         }
 

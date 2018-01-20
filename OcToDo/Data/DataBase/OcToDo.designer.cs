@@ -1350,6 +1350,10 @@ namespace OcToDo.Data.DataBase
 		
 		private int _Task_ID;
 		
+		private int _Activities_ID;
+		
+		private string _ActivitiesName;
+		
 		public AllTask()
 		{
 		}
@@ -1478,6 +1482,38 @@ namespace OcToDo.Data.DataBase
 				if ((this._Task_ID != value))
 				{
 					this._Task_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Activities_ID", DbType="Int NOT NULL")]
+		public int Activities_ID
+		{
+			get
+			{
+				return this._Activities_ID;
+			}
+			set
+			{
+				if ((this._Activities_ID != value))
+				{
+					this._Activities_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ActivitiesName", DbType="NVarChar(30)")]
+		public string ActivitiesName
+		{
+			get
+			{
+				return this._ActivitiesName;
+			}
+			set
+			{
+				if ((this._ActivitiesName != value))
+				{
+					this._ActivitiesName = value;
 				}
 			}
 		}

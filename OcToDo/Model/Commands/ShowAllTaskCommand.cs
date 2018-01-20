@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OcToDo.Data.DataBase;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace OcToDo.Model.Commands
 {
@@ -18,20 +19,21 @@ namespace OcToDo.Model.Commands
             Client = client;
             var chatId = message.Chat.Id;
             var messageId = message.MessageId;
-            var plEntity = new PeopleEntity().FindPeopleId(message.From.Username);
+            var plEntity = await UserChecker.CheckPlEntity(message, client, chatId, messageId);
             if (plEntity == null)
             {
-                await client.SendTextMessageAsync(chatId,
-                    "Пройдите регистрацию",
-                    replyToMessageId: messageId);
                 return;
             }
             else
             {
                 var tasklist = new TaskEntity().ShowTask(message.From.Username);
+                if (tasklist=="")
+                {
+                    tasklist = "У вас еще нет тасков";
+                }
                 await client.SendTextMessageAsync(chatId,
                     tasklist,
-                    replyToMessageId: messageId);
+                    replyToMessageId: messageId,parseMode:ParseMode.Markdown);
             }
         }
     }
